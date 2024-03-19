@@ -13,27 +13,16 @@ var options = {
     crossorigin: true
   }
 
-/*
-function handleSubmit(event) {
-    // POST request using fetch with async/await
-    const requestOptions = {
-       method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ title: 'React POST Request Example' })
-   };
-   const response = fetch('http://localhost:8080/UpdateJobseeker', requestOptions);
-   
-}
-*/
-function UpdateJobSeeker() {
+  
+function UpdateJobSeekerResume() {
 
         
 
-    const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [data, setData] = useState({});
     
     useEffect(() => {
-      fetch('http://localhost:8080/GetJobseekerByID?ID=1', options)
+      fetch('http://localhost:8080/GetJobseekerResumeByID?ID=1', options)
         .then(response => response.json())
         .then(json => setData(json))
         .catch(error => console.error(error));
@@ -46,7 +35,7 @@ function UpdateJobSeeker() {
         event.preventDefault();
         setIsLoading(true);
         try {
-          const response = await fetch('http://localhost:8080/UpdateJobseeker', {
+          const response = await fetch('http://localhost:8080/UpdateJobseekerResume', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -72,29 +61,18 @@ function UpdateJobSeeker() {
       <div>
       {data ? 
     <form onSubmit = {onSubmit}>
-    <label htmlFor={data.field1}>First Name</label>
-    <input
-              type="text"
-              value={data.JobseekerFirstName || ''}
+    <label for="file">Resume: </label>
+    <input id = "file"
+              type="file"
+              value={data.Resume || ''}
               onChange={(e) =>
-                setData({ ...data, JobseekerFirstName: e.target.value })
+                setData({ ...data, Resume: e.target.value })
               }
             />
     <br />
     <br />
 
-    <label htmlFor={data.field2}>Last Name</label>
-    <input
-              type="text"
-              value={data.JobseekerLastName || ''}
-              onChange={(e) =>
-                setData({ ...data, JobseekerLastName: e.target.value })
-              }
-            />
-
-    <br />
-    <br />
-    
+    <button type="submit">Upload</button>
     </form>
     
     : 'Loading...'}
@@ -102,4 +80,4 @@ function UpdateJobSeeker() {
     );
 }
 
-export default UpdateJobSeeker;
+export default UpdateJobSeekerResume;

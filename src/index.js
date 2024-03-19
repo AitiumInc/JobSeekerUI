@@ -10,7 +10,10 @@ import JobSeekerExperiences from './JobSeekerExperiences';
 import JobSeekerCertificates from './JobSeekerCertificates';
 import UpdateJobSeeker from './UpdateJobSeeker';
 import reportWebVitals from './reportWebVitals';
-
+import UpdateJobSeekerEducation from './UpdateJobseekerEducation';
+import UpdateJobseekerSkills from './UpdateJobseekerSkills';
+import UpdateJobseekerExperiences from './UpdateJobseekerExperience';
+import UpdateJobSeekerResume from './UpdateJobseekerResume';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,6 +25,10 @@ root.render(
     <JobSeekerExperiences />
     <JobSeekerCertificates />
     <UpdateJobSeeker />
+    <UpdateJobSeekerEducation />
+    <UpdateJobseekerSkills />
+    <UpdateJobseekerExperiences />
+    <UpdateJobSeekerResume />
   </React.StrictMode>
 );
 
