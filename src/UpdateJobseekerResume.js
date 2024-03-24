@@ -20,6 +20,7 @@ function UpdateJobSeekerResume() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState({});
+    const [id, setID] = useState(0);
     
     useEffect(() => {
       fetch('http://localhost:8080/GetJobseekerResumeByID?ID=1', options)
@@ -35,12 +36,14 @@ function UpdateJobSeekerResume() {
         event.preventDefault();
         setIsLoading(true);
         try {
+          const formData = new FormData();
+          formData.append('resumeFile', data);
           const response = await fetch('http://localhost:8080/UpdateJobseekerResume', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'multipart/form-data',
             },
-            body: JSON.stringify(data),
+            body: formData,
           });
           if (response.ok) {
             console.log('Data successfully submitted');
@@ -62,13 +65,20 @@ function UpdateJobSeekerResume() {
       {data ? 
     <form onSubmit = {onSubmit}>
     <label for="file">Resume: </label>
-    <input id = "file"
+    <input id="file"
               type="file"
-              value={data.Resume || ''}
+              value={data.ResumeFileName || ''}
               onChange={(e) =>
                 setData({ ...data, Resume: e.target.value })
               }
             />
+    <input id="id"
+              type="text"
+              value={data.PK_ResumeID}
+              onChange={(e) =>
+                setID({...data, Resume: e.target.value })
+              }
+        />
     <br />
     <br />
 
