@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './css/style.css';
 
 var options = {  
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': "*",
-      'Access-Control-Allow-Headers': "*"
-    },
-    mode: 'cors',
-    crossorigin: true
-  }
-
+  method: 'GET',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': "*",
+    'Access-Control-Allow-Headers': "*"
+  },
+  mode: 'cors',
+  crossorigin: true
+}
   
 function UpdateJobSeekerResume() {
 
@@ -26,6 +25,7 @@ function UpdateJobSeekerResume() {
       fetch('http://localhost:8080/GetJobseekerResumeByID?ID=1', options)
         .then(response => response.json())
         .then(json => setData(json))
+        .then(json => setID(json))
         .catch(error => console.error(error));
     }, []);
 
@@ -38,6 +38,7 @@ function UpdateJobSeekerResume() {
         try {
           const formData = new FormData();
           formData.append('resumeFile', data);
+          formData.append('resumeID', id);
           const response = await fetch('http://localhost:8080/UpdateJobseekerResume', {
             method: 'POST',
             headers: {
@@ -64,19 +65,22 @@ function UpdateJobSeekerResume() {
       <div>
       {data ? 
     <form onSubmit = {onSubmit}>
-    <label for="file">Resume: </label>
+    <label for="file">Upload Resume: </label>
     <input id="file"
               type="file"
               value={data.ResumeFileName || ''}
               onChange={(e) =>
-                setData({ ...data, Resume: e.target.value })
+                setData({ ...data, ResumeFileName: e.target.value })
               }
             />
+    <br />
+    <br />
+    <label for='id'>Resume ID:</label>
     <input id="id"
-              type="text"
+              type="number"
               value={data.PK_ResumeID}
               onChange={(e) =>
-                setID({...data, Resume: e.target.value })
+                setID({...data, PK_ResumeID: e.target.value })
               }
         />
     <br />
