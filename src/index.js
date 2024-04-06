@@ -8,6 +8,7 @@ import JobSeekerSkills from './JobSeekerSkills';
 import JobSeekerEducation from './JobSeekerEducation';
 import JobSeekerExperiences from './JobSeekerExperiences';
 import JobSeekerCertificates from './JobSeekerCertificates';
+import JobSeekerResume from './JobSeekerResume';
 import UpdateJobSeeker from './UpdateJobSeeker';
 import reportWebVitals from './reportWebVitals';
 import UpdateJobSeekerEducation from './UpdateJobseekerEducation';
@@ -24,11 +25,10 @@ root.render(
     <JobSeekerEducation />
     <JobSeekerExperiences />
     <JobSeekerCertificates />
-    <UpdateJobSeeker />
+    <JobSeekerResume />
     <UpdateJobSeekerEducation />
     <UpdateJobseekerSkills />
     <UpdateJobseekerExperiences />
-    <UpdateJobSeekerResume />
   </React.StrictMode>
 );
 

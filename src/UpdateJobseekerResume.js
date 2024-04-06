@@ -22,7 +22,7 @@ function UpdateJobSeekerResume() {
     const [id, setID] = useState(0);
     
     useEffect(() => {
-      fetch('http://localhost:8080/GetJobseekerResumeByID?ID=1', options)
+      fetch('http://localhost:8080/GetResumeByID?ID=1', options)
         .then(response => response.json())
         .then(json => setData(json))
         .then(json => setID(json))

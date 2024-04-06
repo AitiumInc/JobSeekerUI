@@ -22,7 +22,7 @@ var options = {
   
     
     useEffect(() => {
-      fetch('http://localhost:8080/GetJobseekerByID=1', options)
+      fetch('http://localhost:8080/GetJobseekerByID?ID=1', options)
         .then(response => response.json())
         .then(json => setData(json))
         .then(json => setEditedData(json))
