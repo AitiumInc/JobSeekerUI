@@ -29,6 +29,7 @@ root.render(
     <UpdateJobSeekerEducation />
     <UpdateJobseekerSkills />
     <UpdateJobseekerExperiences />
+    <UpdateJobSeekerResume />
   </React.StrictMode>
 );
 

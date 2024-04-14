@@ -14,51 +14,45 @@ var options = {
   }
   function JobSeekerResume() {
 
-    const [data, setData] = useState(null);
+
+    const [fileUrl, setFileUrl] = useState('');
+    const [fileName, setFileName] = useState('');
+
     
-    useEffect(() => {
-      fetch('http://localhost:8080/GetResumeByID?ID=1', options)
-        .then(response => response.json())
-        .then(json => setData(json))
-        .catch(error => console.error(error));
-    }, []);
-    
-    const handleFileClick = () => {
-      if (data && data.ResumeFileContent) {
-          // Convert resumefilecontent to Blob
-          const blob = new Blob([data.ResumeFileContent], { type: 'application/octet-stream' });
-          // Create URL for Blob
-          const url = URL.createObjectURL(blob);
-          // Open the URL in a new window
-          window.open(url, '_blank');
+    const fetchFile = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/GetResumeByID?resumeID=1', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            // Add any necessary headers for authentication or other purposes
+          },
+        });
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const contentDisposition = response.headers.get('Content-Disposition');
+        const filenameMatch = contentDisposition && contentDisposition.match(/filename="(.+)"/);
+        const filename = filenameMatch ? filenameMatch[1] : 'file.txt';
+        setFileUrl(url);
+        setFileName(filename);
+      } catch (error) {
+        console.error('Error fetching file:', error);
       }
-  };
-  
+      
+    };
+
+    
+
     return (
       <div>
-        {data ? 
-        <pre>
-        <section id="testimonial" class="section-background">
-          <div class="container">
-               <div class="row">
-                    <div class="col-sm-4 col-xs-12">
-                         <div class="item">
-                              <div class="tst-author">
-                                   <h3>Jobseeker Resume</h3>
-                                   <button onClick={() => handleFileClick(data)}>
-            {data.ResumeFileName}
-          </button>
-                              </div>
-                         </div>
-                    </div>
-               </div>
-          </div>
-     </section> 
-        
-        </pre> 
-        : 'Loading...'}
-      </div>
-    );
+      <button onClick={fetchFile}>Fetch File</button>
+      {fileUrl && (
+        <a href={fileUrl} download={fileName}>
+          Click to Download File
+        </a>
+      )}
+    </div>
+  );
   }
 
   export default JobSeekerResume;
