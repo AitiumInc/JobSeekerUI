@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import JobSeekerProfile from './JobSeekerProfile';
 import JobSeekerSkills from './JobSeekerSkills';
 import JobSeekerEducation from './JobSeekerEducation';
@@ -15,6 +14,7 @@ import UpdateJobSeekerEducation from './UpdateJobseekerEducation';
 import UpdateJobseekerSkills from './UpdateJobseekerSkills';
 import UpdateJobseekerExperiences from './UpdateJobseekerExperience';
 import UpdateJobSeekerResume from './UpdateJobseekerResume';
+import styles from './css/style.css';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

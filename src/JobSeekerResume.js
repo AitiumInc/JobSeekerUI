@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './css/style.css';
 
 var options = {  
     method: 'GET',
@@ -17,6 +16,7 @@ var options = {
 
     const [fileUrl, setFileUrl] = useState('');
     const [fileName, setFileName] = useState('');
+    const [disposition, setDisposition] = useState('');
 
     
     const fetchFile = async () => {
@@ -30,9 +30,15 @@ var options = {
         });
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
+        let filename = 'downloaded_file';
         const contentDisposition = response.headers.get('Content-Disposition');
-        const filenameMatch = contentDisposition && contentDisposition.match(/filename="(.+)"/);
-        const filename = filenameMatch ? filenameMatch[1] : 'file.txt';
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename=(.+)/);
+          if (filenameMatch) {
+            filename = filenameMatch[1];
+          }
+        }
+        setDisposition(contentDisposition);
         setFileUrl(url);
         setFileName(filename);
       } catch (error) {
@@ -51,6 +57,12 @@ var options = {
           Click to Download File
         </a>
       )}
+      <div>
+        <span>
+          Hello.
+          {disposition}
+        </span>
+      </div>
     </div>
   );
   }

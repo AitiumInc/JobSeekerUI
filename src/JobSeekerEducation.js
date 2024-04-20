@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './css/style.css';
 
 var options = {  
     method: 'GET',
@@ -31,7 +30,7 @@ var options = {
         <section id="testimonial" class="section-background">
           <div class="container">
                <div class="row">
-                    <div class="col-sm-4 col-xs-12">
+                    <div class="col-md-4 col-xs-12">
                          <div class="item">
                               <div class="tst-author">
                                    <h3>Education:</h3>

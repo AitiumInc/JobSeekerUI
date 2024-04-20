@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './css/style.css';
+
 
 var options = {  
     method: 'GET',
@@ -26,8 +26,35 @@ var options = {
   
     return (
       <div>
+          <div>
+            <head>
+              <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png"></link>
+
+
+              <link rel="stylesheet" href="./css/bootstrap.min.css"></link>
+              <link rel="stylesheet" href="./css/owl.carousel.min.css"></link>
+              <link rel="stylesheet" href="./css/magnific-popup.css"></link>
+              <link rel="stylesheet" href="./css/font-awesome.min.css"></link>
+              <link rel="stylesheet" href="./css/themify-icons.css"></link>
+              <link rel="stylesheet" href="./css/nice-select.css"></link>
+              <link rel="stylesheet" href="./css/flaticon.css"></link>
+              <link rel="stylesheet" href="./css/gijgo.css"></link>
+              <link rel="stylesheet" href="./css/animate.min.css"></link>
+              <link rel="stylesheet" href="./css/slicknav.css"></link>
+              <link rel="stylesheet" href="./css/style.css"></link>
+            </head>
+        </div>
         {data ? 
         <pre>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Software Engineer</h3>
+                    </div>
+                </div>
+            </div>
+          </div>
         <section id="testimonial" class="section-background">
           <div class="container">
                <div class="row">
