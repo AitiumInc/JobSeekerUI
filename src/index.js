@@ -14,22 +14,31 @@ import UpdateJobSeekerEducation from './UpdateJobseekerEducation';
 import UpdateJobseekerSkills from './UpdateJobseekerSkills';
 import UpdateJobseekerExperiences from './UpdateJobseekerExperience';
 import UpdateJobSeekerResume from './UpdateJobseekerResume';
-import styles from './css/style.css';
+import Title from './Title';
+import App from './App.js';
+import './css/style.css';
+import './css/bootstrap.min.css';
+import './css/magnific-popup.css';
+import './css/font-awesome.min.css';
+import './css/themify-icons.css';
+import './css/nice-select.css';
+import './css/flaticon.css';
+import './css/gijgo.css';
+import './css/animate.min.css';
+import './css/slicknav.css';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <JobSeekerProfile />
-    <JobSeekerSkills />
-    <JobSeekerEducation />
-    <JobSeekerExperiences />
-    <JobSeekerCertificates />
-    <JobSeekerResume />
-    <UpdateJobSeekerEducation />
-    <UpdateJobseekerSkills />
-    <UpdateJobseekerExperiences />
-    <UpdateJobSeekerResume />
+    <App class="jobseeker-component"/>
+    <Title />
+    <div class="job-details-area">
+      <div class="container">
+      <JobSeekerProfile/>
+      <JobSeekerSkills/>
+      </div>
+    </div>
   </React.StrictMode>
 );
 

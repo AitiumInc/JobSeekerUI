@@ -27,26 +27,50 @@ var options = {
       <div>
         {data ? 
         <pre>
-        <section id="testimonial" class="section-background">
-          <div class="container">
-               <div class="row">
-                    <div class="col-sm-4 col-xs-12">
-                         <div class="item">
-                              <div class="tst-author">
-                                   <h3>Professional Certificates:</h3>
-                                   <h4>{data[0].ProfessionalCertificate || ""}</h4>
-                                   <h5>Obtained on {data[0].ProfessionalCertificateDateObtained || ""}</h5>
-                                   <h5>Expires on {data[0].ProfessionalCertificateExpirationDate || ""}</h5>
+        <div class="job_details_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="job_details_area">
+                          <div class="container box_1170">
+                            <div class="section-top-border">
+                              <h3 class="mb-30">Certificates</h3>
+                              <div class="progress-table-wrap">
+                                <div class="progress-table">
+                                  <div class="table-head">
+                                    <div class="serial">#</div>
+                                    <div class="country">Certificate</div>
+                                    <div class="country">Date Obtained</div>
+                                    <div class="country">Date Expired</div>
+                                    <div class="serial">User ID</div>
+                                  </div>
+                                  {data.map((item, index) => (
+                                    <div key={index}>
+                                      <div class="col-md-12">
+                                        <div class="table-row">
+                                            <div class="serial">{data[index]["PK_ProfessionalCertificateID"] || ''}</div>
+                                            <div class="country">{data[index]["ProfessionalCertificate"] || ''}</div>
+                                            <div class="country">{data[index]["ProfessionalCertificateDateObtained"].substring(0,10) || ''}</div>
+                                            <div class="country">{data[index]["ProfessionalCertificateExpirationDate"].substring(0,4) || ''}</div>
+                                            <div class="serial">{data[index]["FK_JobseekerID"] || ''}</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
-                         </div>
+                            </div>
+                          </div>
+                        </div>
                     </div>
-               </div>
-          </div>
-     </section> 
-        
+                </div>
+              </div>
+        </div>
+    
         </pre> 
         : 'Loading...'}
       </div>
+      
     );
   }
 

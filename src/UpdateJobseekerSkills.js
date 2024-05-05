@@ -64,26 +64,44 @@ var options = {
         
       <div>
       {data ? 
-        <form onSubmit = {onSubmit}>
-            {data.map((item, index) => (
-              
-              <div key={index}>
-                {Object.keys(item)?.map((key) => (
-                  <div key={key}>
-                    <label htmlFor={key}>{key} </label>
-                    <input
-                            type="text"
-                            value={data[index][key] || ''}
-                            onChange={(e) => handleChange(index, key, e.target.value)}
-                          />
+        <div class="job_details_area">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="apply_job_form white-bg">
+                  <h4>Edit Skills</h4>
+                  <div class="row">
+                    <form onSubmit = {onSubmit}>
+                      {data.map((item, index) => (
+                        <div key={index}>
+                            {Object.keys(item)?.map((key) => (
+                              <div class="col-md-12">
+                                <div class="input_field">
+                                  <div key={key}>
+                                  <label htmlFor={key}>{key} </label>
+                                    <input
+                                        type="text"
+                                        value={data[index][key] || ''}
+                                        onChange={(e) => handleChange(index, key, e.target.value)}
+                                      />
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      <div class="col-md-12">
+                        <div class="submit_btn">
+                          <button class="boxed-btn3 w-100" type="submit">Save</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
-              ))}
-                
+                </div>
+              </div>
+            </div>
           </div>
-          ))}
-        <button type="submit">Save</button>
-        </form>
-    
+        </div>
     : 'Loading...'}
     </div>
     );

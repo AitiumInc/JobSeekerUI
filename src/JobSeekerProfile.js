@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 
+
 var options = {  
     method: 'GET',
     headers: {
@@ -23,84 +24,55 @@ var options = {
         .catch(error => console.error(error));
     }, []);
     
+
   
     return (
-      <div>
-          <div>
-            <head>
-              <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png"></link>
-
-
-              <link rel="stylesheet" href="./css/bootstrap.min.css"></link>
-              <link rel="stylesheet" href="./css/owl.carousel.min.css"></link>
-              <link rel="stylesheet" href="./css/magnific-popup.css"></link>
-              <link rel="stylesheet" href="./css/font-awesome.min.css"></link>
-              <link rel="stylesheet" href="./css/themify-icons.css"></link>
-              <link rel="stylesheet" href="./css/nice-select.css"></link>
-              <link rel="stylesheet" href="./css/flaticon.css"></link>
-              <link rel="stylesheet" href="./css/gijgo.css"></link>
-              <link rel="stylesheet" href="./css/animate.min.css"></link>
-              <link rel="stylesheet" href="./css/slicknav.css"></link>
-              <link rel="stylesheet" href="./css/style.css"></link>
-            </head>
-        </div>
+        <div class="row">
+         
         {data ? 
         <pre>
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="bradcam_text">
-                        <h3>Software Engineer</h3>
+                        <div class="col-lg-8">
+                            <div class="job_details_header">
+                                <div class="single_jobs white-bg d-flex justify-content-between">
+                                    <div class="jobs_left d-flex align-items-center">
+                                        <div class="jobs_conetent">
+                                            <a href="#"><h4>{data.JobseekerFirstName || ""}{data.JobseekerMiddleName  || " "}{data.JobseekerLastName || ""}</h4></a>
+                                            <div class="links_locat d-flex align-items-center">
+                                                <div class="location">
+                                                    <p> <i class="fa fa-map-marker"></i> {data.JobseekerState || ""}, {data.JobseekerCountry}</p>
+                                                </div>
+                                                <div class="location">
+                                                    <p> <i class="fa fa-clock-o"></i> Part-time</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="jobs_right">
+                                        <div class="apply_now">
+                                            <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="descript_wrap white-bg">
+                                <div class="single_wrap">
+                                    <h4>Name</h4>
+                                    <p>{data.JobseekerFirstName || ""}{data.JobseekerMiddleName  || " "}{data.JobseekerLastName || ""}</p>
+                                </div>
+                                <div class="single_wrap">
+                                    <h4>Email</h4>
+                                    <p>{data.JobseekerEmail || ""}</p>
+                                </div>
+                                <div class="single_wrap">
+                                    <h4>Phone Number</h4>
+                                    <p>{data.JobseekerPhoneNumber || ""}</p>
+                                </div>
+                                <div class="single_wrap">
+                                    <h4>Address</h4>
+                                    <p>{data.JobseekerAddress || ""}, {data.JobseekerCity || ""}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-          </div>
-        <section id="testimonial" class="section-background">
-          <div class="container">
-               <div class="row">
-                    <div class="col-sm-4 col-xs-12">
-                         <div class="item">
-                              <div class="tst-image">
-                                   <img></img>
-                              </div>
-                              <div class="tst-author">
-                                   <h3>{data.JobseekerFirstName || ""}{data.JobseekerMiddleName  || " "}{data.JobseekerLastName || ""}</h3>
-                                   <span>{data.JobseekerTitle}</span>
-                              </div>
-                         </div>
-                    </div>
-               </div>
-               <div class="row">
-                   <div class="col-sm-4 col-xs-12">
-                         <div class="item">
-                              <div class="tst-author">
-                                   <h3>About Me</h3>
-                                   <h4>Name</h4>
-                                   <span>{data.JobseekerFirstName || ""}</span>
-                                   <h4>Email Address</h4>
-                                   <span>{data.JobseekerEmail || ""}</span>
-                                   <h4>Phone Number</h4>
-                                   <span>{data.JobseekerPhoneNumber || ""}</span>
-
-                              </div>
-                         </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                         <div class="item">
-                              <div class="tst-author">
-                                   <h3>Address</h3>
-                                   <h4>{data.JobseekerAddress || ""}</h4>
-                                   <h4>{data.JobseekerCity || ""}</h4>
-                                   <h4>{data.JobseekerState || ""}</h4>
-                                   <h4>{data.JobseekerCountry || ""}</h4>
-
-                              </div>
-                         </div>
-                    </div>
-               </div>
-          </div>
-     </section> 
-        
         </pre> 
         : 'Loading...'}
       </div>

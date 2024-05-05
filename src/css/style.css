@@ -190,26 +190,23 @@ h3 {
   background: #ffffff;
 }
 
-/* line 126, ../../Arafath/CL/December/235. Job board/HTML/scss/theme-default.scss */
+/* line 126, ../../Arafath/CL/December/235. Job board/HTML/scss/theme-default.scss 
 .gray-bg {
   background: #f5f5f5;
 }
 
-/* line 131, ../../Arafath/CL/December/235. Job board/HTML/scss/theme-default.scss */
 .bg-img-1 {
   background-image: url(../img/slider/slider-img-1.jpg);
 }
 
-/* line 134, ../../Arafath/CL/December/235. Job board/HTML/scss/theme-default.scss */
 .bg-img-2 {
   background-image: url(../img/background-img/bg-img-2.jpg);
 }
 
-/* line 137, ../../Arafath/CL/December/235. Job board/HTML/scss/theme-default.scss */
 .cta-bg-1 {
   background-image: url(../img/background-img/bg-img-3.jpg);
 }
-
+*/
 /* line 142, ../../Arafath/CL/December/235. Job board/HTML/scss/theme-default.scss */
 .overlay {
   position: relative;
@@ -1389,10 +1386,11 @@ h3 {
   background-image: url(../img/banner/banner.png);
 }
 
-/* line 4, ../../Arafath/CL/December/235. Job board/HTML/scss/_slider.scss */
+/* line 4, ../../Arafath/CL/December/235. Job board/HTML/scss/_slider.scss 
 .slider_bg_2 {
   background-image: url(../img/banner/banner_2.png);
 }
+*/
 
 /* line 7, ../../Arafath/CL/December/235. Job board/HTML/scss/_slider.scss */
 .slider_area {
@@ -4875,7 +4873,7 @@ h6 {
 
 /* line 357, ../../Arafath/CL/December/235. Job board/HTML/scss/_elements.scss */
 .progress-table {
-  background: #f9f9ff;
+  background: #ffffff;
   padding: 15px 0px 30px 0px;
   min-width: 800px;
 }
@@ -4888,17 +4886,18 @@ h6 {
 
 /* line 365, ../../Arafath/CL/December/235. Job board/HTML/scss/_elements.scss */
 .progress-table .country {
-  width: 28.07%;
+  width: 22.00%;
 }
 
 /* line 368, ../../Arafath/CL/December/235. Job board/HTML/scss/_elements.scss */
 .progress-table .visit {
-  width: 19.74%;
+  width: 30.74%;
+  text-align: left;
 }
 
 /* line 371, ../../Arafath/CL/December/235. Job board/HTML/scss/_elements.scss */
 .progress-table .percentage {
-  width: 40.36%;
+  width: 10.36%;
   padding-right: 50px;
 }
 

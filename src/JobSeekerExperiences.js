@@ -24,29 +24,39 @@ var options = {
     
   
     return (
-      <div>
+      <div class="container">
         {data ? 
         <pre>
-        <section id="testimonial" class="section-background">
-          <div class="container">
-               <div class="row">
-                    <div class="col-sm-4 col-xs-12">
-                         <div class="item">
-                              <div class="tst-author">
-                                   <h3>Experience:</h3>
-                                   <h4>Role Played</h4>
-                                   <span>{data[0].ExperiencesRoleName || ""}</span>
-                                   <h4>Role Description</h4>
-                                   <span>{data[0].ExperiencesRoleDescription || " "}</span>
-                                   <h4>Dates</h4>
-                                   <span>{data[0].ExperiencesStartDate || ""} to {data[0].ExperiencesEndDate || ""}</span>
+              <div class="row">
+                  <div class="col-lg-8">
+                        <div class="container box_1170">
+                          <div class="section-top-border">
+                            <h3 class="mb-30">Experiences</h3>
+                            <div class="progress-table-wrap">
+                              <div class="progress-table">
+                                <div class="table-head">
+                                  <div class="serial">#</div>
+                                  <div class="visit">Experience</div>
+                                  <div class="visit">Role Description</div>
+                                  <div class="visit">Years</div>
+                                  <div class="visit">User ID</div>
+                                </div>
+                                
+                                {data.map((item, index) => (
+                                      <div class="table-row">
+                                          <div class="serial">{data[index]["PK_ExperiencesID"].toString() || ''}</div>
+                                          <div class="visit">{data[index]["ExperiencesRoleName"] || ''}</div>
+                                          <div class="visit">{data[index]["ExperiencesRoleDescription"] || ''}</div>
+                                          <div class="visit">{data[index]["ExperiencesStartDate"].substring(0, 4) || ''} - {data[index]["ExperiencesEndDate"].substring(0, 4) || ''}</div>
+                                          <div class="visit">User ID</div>
+                                      </div>
+                                ))}
                               </div>
-                         </div>
-                    </div>
-               </div>
-          </div>
-     </section> 
-        
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
         </pre> 
         : 'Loading...'}
       </div>
