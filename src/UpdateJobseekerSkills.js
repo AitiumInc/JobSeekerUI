@@ -18,7 +18,14 @@ var options = {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState([]);
     const [editedData, setEditedData] = useState([]);
-  
+    const [selectedRow, setSelectedRow] = useState(null);
+    const handleFindRow = (index) => {
+    if (index >= 0 && index < data.length) {
+      setSelectedRow(data[index]);
+    } else {
+      setSelectedRow(null);
+    }
+  };
     
     useEffect(() => {
       fetch('http://localhost:8080/GetJobseekerSkillsByID?ID=1', options)
@@ -74,20 +81,16 @@ var options = {
                     <form onSubmit = {onSubmit}>
                       {data.map((item, index) => (
                         <div key={index}>
-                            {Object.keys(item)?.map((key) => (
                               <div class="col-md-12">
                                 <div class="input_field">
-                                  <div key={key}>
-                                  <label htmlFor={key}>{key} </label>
+                                  <label>Skill: </label>
                                     <input
                                         type="text"
-                                        value={data[index][key] || ''}
-                                        onChange={(e) => handleChange(index, key, e.target.value)}
+                                        value={data[index]["SkillsName"] || ''}
+                                        onChange={(e) => handleChange(index, "SkillsName", e.target.value)}
                                       />
                                   </div>
-                                </div>
                               </div>
-                            ))}
                           </div>
                         ))}
                       <div class="col-md-12">
