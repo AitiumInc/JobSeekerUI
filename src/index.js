@@ -2,21 +2,45 @@
 import React, { useState, useEffect } from 'react';
 
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import JobSeekerProfile from './JobSeekerProfile';
+import JobSeekerSkills from './JobSeekerSkills';
+import JobSeekerEducation from './JobSeekerEducation';
+import JobSeekerExperiences from './JobSeekerExperiences';
+import JobSeekerCertificates from './JobSeekerCertificates';
+import JobSeekerResume from './JobSeekerResume';
+import UpdateJobSeeker from './UpdateJobSeeker';
 import reportWebVitals from './reportWebVitals';
-
-function HelloWorld() {
-  return <h1 className="greeting">Hello, world!</h1>;
-}
-
-
+import UpdateJobSeekerEducation from './UpdateJobseekerEducation';
+import UpdateJobseekerSkills from './UpdateJobseekerSkills';
+import UpdateJobseekerExperiences from './UpdateJobseekerExperience';
+import UpdateJobSeekerResume from './UpdateJobseekerResume';
+import Title from './Title';
+import App from './App.js';
+import './css/style.css';
+import './css/bootstrap.min.css';
+import './css/magnific-popup.css';
+import './css/font-awesome.min.css';
+import './css/themify-icons.css';
+import './css/nice-select.css';
+import './css/flaticon.css';
+import './css/gijgo.css';
+import './css/animate.min.css';
+import './css/slicknav.css';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <JobSeekerProfile />
+  <App className="jobseeker-component"/>
+  <Title />
+  <div className="job-details-area">
+    <div className="container">
+      <JobSeekerProfile/>
+      <JobSeekerSkills/>
+      <JobSeekerEducation/>
+      <JobSeekerExperiences/>
+    </div>
+  </div>
   </React.StrictMode>
 );
 
