@@ -14,32 +14,19 @@ var options = {
 
   
 
-  function UpdateJobseekerSkills() {
+  function UpdateJobseekerSkills(newData) {
+    const data = newData.newData;
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState([]);
-    const [editedData, setEditedData] = useState([]);
-    const [selectedRow, setSelectedRow] = useState(null);
-    const handleFindRow = (index) => {
-    if (index >= 0 && index < data.length) {
-      setSelectedRow(data[index]);
-    } else {
-      setSelectedRow(null);
-    }
-  };
-    
+    const [editedData, setEditedData] = useState(data);
     useEffect(() => {
-      fetch('http://localhost:8080/GetJobseekerSkillsByID?ID=1', options)
-        .then(response => response.json())
-        .then(json => setData(json))
-        .then(json => setEditedData(json))
-        .catch(error => console.error(error));
-    }, []);
-
+      setEditedData(data);
+    }, [data]);
   
-    const handleChange = (index, key, value) => {
-      const newData = [...data];
-      newData[index][key] = value;
-      setEditedData(newData);
+    const handleChange = (key, value) => {
+      setEditedData(prevData => ({
+        ...prevData,
+        [key]: value
+      }));
     };
   
     const onSubmit = async (event) => {
@@ -51,12 +38,10 @@ var options = {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(editedData),
         });
         if (response.ok) {
           console.log('Data successfully submitted');
-          // Optionally, you can reset the form after successful submission
-          // setFormData({});
         } else {
           throw new Error('Failed to submit data');
         }
@@ -65,50 +50,47 @@ var options = {
       }
       setIsLoading(false);
     };
-    
-
+  
     return (
-        
-      <div>
-      {data ? 
-        <div class="job_details_area">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-8">
-                <div class="apply_job_form white-bg">
-                  <h4>Edit Skills</h4>
-                  <div class="row">
-                    <form onSubmit = {onSubmit}>
-                      {data.map((item, index) => (
-                        <div key={index}>
-                              <div class="col-md-12">
-                                <div class="input_field">
-                                  <label>Skill: </label>
-                                    <input
-                                        type="text"
-                                        value={data[index]["SkillsName"] || ''}
-                                        onChange={(e) => handleChange(index, "SkillsName", e.target.value)}
-                                      />
-                                  </div>
-                              </div>
-                          </div>
-                        ))}
-                      <div class="col-md-12">
-                        <div class="submit_btn">
-                          <button class="boxed-btn3 w-100" type="submit">Save</button>
-                        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+                <h4>Edit Skill</h4>
+                <div className="row">
+                  <form onSubmit={onSubmit}>
+                  <div className="col-md-12">
+                      <div className="input_field">
+                        <label>Skill Name: </label>
+                        <input type="text" placeholder="Skill"
+                          onfocus="this.placeholder = ''" required
+                          value={editedData.SkillsName || ''}
+                          onChange={(e) => handleChange("SkillsName", e.target.value)}
+                          class="single-input"
+                        />
                       </div>
-                    </form>
-                  </div>
-                </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        <label>Years of Experience: </label>
+                        <input type="number" placeholder="Years"
+                          onfocus="this.placeholder = ''" required
+                          value={editedData.SkillsNumYearsExperience || ''}
+                          onChange={(e) => handleChange("SkillsNumYearsExperience", e.target.value)}
+                          class="single-input"
+                        />
+                      </div>
+                    </div>
+                      <div className="submit_btn">
+                        <button className="boxed-btn3 w-100" type="submit">
+                          Save
+                        </button>
+                      </div>
+                  </form>
               </div>
             </div>
           </div>
         </div>
-    : 'Loading...'}
-    </div>
     );
   }
-  
   
   export default UpdateJobseekerSkills;

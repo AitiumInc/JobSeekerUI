@@ -31,14 +31,16 @@ import './css/slicknav.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App class="jobseeker-component"/>
-    <Title />
-    <div class="job-details-area">
-      <div class="container">
+  <App className="jobseeker-component"/>
+  <Title />
+  <div className="job-details-area">
+    <div className="container">
       <JobSeekerProfile/>
       <JobSeekerSkills/>
-      </div>
+      <JobSeekerEducation/>
+      <JobSeekerExperiences/>
     </div>
+  </div>
   </React.StrictMode>
 );
 

@@ -30,50 +30,48 @@ var options = {
         <div class="row">
          
         {data ? 
-        <pre>
-                        <div class="col-lg-8">
-                            <div class="job_details_header">
-                                <div class="single_jobs white-bg d-flex justify-content-between">
-                                    <div class="jobs_left d-flex align-items-center">
-                                        <div class="jobs_conetent">
-                                            <a href="#"><h4>{data.JobseekerFirstName || ""}{data.JobseekerMiddleName  || " "}{data.JobseekerLastName || ""}</h4></a>
-                                            <div class="links_locat d-flex align-items-center">
-                                                <div class="location">
-                                                    <p> <i class="fa fa-map-marker"></i> {data.JobseekerState || ""}, {data.JobseekerCountry}</p>
-                                                </div>
-                                                <div class="location">
-                                                    <p> <i class="fa fa-clock-o"></i> Part-time</p>
-                                                </div>
-                                            </div>
-                                        </div>
+            <div class="col-lg-8">
+                <div class="job_details_header">
+                    <div class="single_jobs white-bg d-flex justify-content-between">
+                        <div class="jobs_left d-flex align-items-center">
+                            <div class="jobs_conetent">
+                                <a href="#"><h4>{data.JobseekerFirstName || ""}{data.JobseekerMiddleName  || " "}{data.JobseekerLastName || ""}</h4></a>
+                                <div class="links_locat d-flex align-items-center">
+                                    <div class="location">
+                                        <p> <i class="fa fa-map-marker"></i> {data.JobseekerState || ""}, {data.JobseekerCountry}</p>
                                     </div>
-                                    <div class="jobs_right">
-                                        <div class="apply_now">
-                                            <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
-                                        </div>
+                                    <div class="location">
+                                        <p> <i class="fa fa-clock-o"></i> Part-time</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="descript_wrap white-bg">
-                                <div class="single_wrap">
-                                    <h4>Name</h4>
-                                    <p>{data.JobseekerFirstName || ""}{data.JobseekerMiddleName  || " "}{data.JobseekerLastName || ""}</p>
-                                </div>
-                                <div class="single_wrap">
-                                    <h4>Email</h4>
-                                    <p>{data.JobseekerEmail || ""}</p>
-                                </div>
-                                <div class="single_wrap">
-                                    <h4>Phone Number</h4>
-                                    <p>{data.JobseekerPhoneNumber || ""}</p>
-                                </div>
-                                <div class="single_wrap">
-                                    <h4>Address</h4>
-                                    <p>{data.JobseekerAddress || ""}, {data.JobseekerCity || ""}</p>
+                        </div>
+                        <div class="jobs_right">
+                            <div class="apply_now">
+                                <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
                             </div>
                         </div>
                     </div>
-        </pre> 
+                </div>
+                <div class="descript_wrap white-bg">
+                    <div class="single_wrap">
+                        <h4>Name</h4>
+                        <p>{data.JobseekerFirstName || ""}{data.JobseekerMiddleName  || " "}{data.JobseekerLastName || ""}</p>
+                    </div>
+                    <div class="single_wrap">
+                        <h4>Email</h4>
+                        <p>{data.JobseekerEmail || ""}</p>
+                    </div>
+                    <div class="single_wrap">
+                        <h4>Phone Number</h4>
+                        <p>{data.JobseekerPhoneNumber || ""}</p>
+                    </div>
+                    <div class="single_wrap">
+                        <h4>Address</h4>
+                        <p>{data.JobseekerAddress || ""}, {data.JobseekerCity || ""}</p>
+                    </div>
+                </div>
+            </div>
         : 'Loading...'}
       </div>
     );

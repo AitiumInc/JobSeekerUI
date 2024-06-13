@@ -453,6 +453,7 @@ h3 {
   -o-transition: 0.3s;
   transition: 0.3s;
   cursor: pointer;
+  margin-top: 40px;
 }
 
 /* line 43, ../../Arafath/CL/December/235. Job board/HTML/scss/_btn.scss */
@@ -4886,7 +4887,7 @@ h6 {
 
 /* line 365, ../../Arafath/CL/December/235. Job board/HTML/scss/_elements.scss */
 .progress-table .country {
-  width: 22.00%;
+  width: 50.00%;
 }
 
 /* line 368, ../../Arafath/CL/December/235. Job board/HTML/scss/_elements.scss */
@@ -4894,6 +4895,7 @@ h6 {
   width: 30.74%;
   text-align: left;
 }
+
 
 /* line 371, ../../Arafath/CL/December/235. Job board/HTML/scss/_elements.scss */
 .progress-table .percentage {
@@ -7485,7 +7487,28 @@ h6 {
 }
 
 .popup-content {
+  position: relative;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   padding: 20px;
   border-radius: 5px;
+}
+
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: red;
 }

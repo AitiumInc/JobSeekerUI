@@ -14,25 +14,19 @@ var options = {
 
   
 
-  function UpdateJobseekerExperiences() {
+  function UpdateJobseekerExperiences(newData) {
+    const data = newData.newData;
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState([]);
-    const [editedData, setEditedData] = useState([]);
-  
-    
+    const [editedData, setEditedData] = useState(data);
     useEffect(() => {
-      fetch('http://localhost:8080/GetJobseekerExperiencesByID?ID=1', options)
-        .then(response => response.json())
-        .then(json => setData(json))
-        .then(json => setEditedData(json))
-        .catch(error => console.error(error));
-    }, []);
-
+      setEditedData(data);
+    }, [data]);
   
-    const handleChange = (index, key, value) => {
-      const newData = [...data];
-      newData[index][key] = value;
-      setEditedData(newData);
+    const handleChange = (key, value) => {
+      setEditedData(prevData => ({
+        ...prevData,
+        [key]: value
+      }));
     };
   
     const onSubmit = async (event) => {
@@ -44,12 +38,10 @@ var options = {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(editedData),
         });
         if (response.ok) {
           console.log('Data successfully submitted');
-          // Optionally, you can reset the form after successful submission
-          // setFormData({});
         } else {
           throw new Error('Failed to submit data');
         }
@@ -58,36 +50,70 @@ var options = {
       }
       setIsLoading(false);
     };
-    
-
+  
     return (
-        
-      <div>
-      {data ? 
-        <form onSubmit = {onSubmit}>
-            {data.map((item, index) => (
-              
-              <div key={index}>
-                {Object.keys(item)?.map((key) => (
-                  <div key={key}>
-                    <label htmlFor={key}>{key} </label>
-                    <input
-                            type="text"
-                            value={data[index][key] || ''}
-                            onChange={(e) => handleChange(index, key, e.target.value)}
-                          />
-                  </div>
-              ))}
-                
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            <h4>Edit Experience</h4>
+              <div className="row">
+                <form onSubmit={onSubmit}>
+                  <div className="col-md-12">
+                      <div className="input_field">
+                        <label>Experience: </label>
+                        <input type="text" placeholder="Experience"
+                          onfocus="this.placeholder = ''" required
+                          value={editedData.ExperiencesRoleName || ''}
+                          onChange={(e) => handleChange("ExperiencesRoleName", e.target.value)}
+                          class="single-input"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        <label>Role Description: </label>
+                        <input type="text" placeholder="Description"
+                          onfocus="this.placeholder = ''" required
+                          value={editedData.ExperiencesRoleDescription || ''}
+                          onChange={(e) => handleChange("ExperiencesRoleDescription", e.target.value)}
+                          class="single-input"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        <label>Starting Date: </label>
+                        <input type="text" placeholder="2000"
+                          onfocus="this.placeholder = ''" required
+                          value={editedData.ExperiencesStartDate.substring(0,10) || ''}
+                          onChange={(e) => handleChange("ExperiencesStartDate", e.target.value)}
+                          class="single-input"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        <label>End Date: </label>
+                        <input type="text" placeholder="2000"
+                          onfocus="this.placeholder = ''" required
+                          value={editedData.ExperiencesEndDate.substring(0,10) || ''}
+                          onChange={(e) => handleChange("ExperiencesEndDate", e.target.value)}
+                          class="single-input"
+                        />
+                      </div>
+                    </div>
+                    <div className="submit_btn">
+                      <button className="boxed-btn3 w-100" type="submit">
+                        Save
+                      </button>
+                    </div>
+                </form>
+            </div>
           </div>
-          ))}
-        <button type="submit">Save</button>
-        </form>
-    
-    : 'Loading...'}
-    </div>
-    );
-  }
+        </div>
+      </div>
+  );
+}
   
   
   export default UpdateJobseekerExperiences;

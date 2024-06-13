@@ -13,7 +13,7 @@ var options = {
   crossorigin: true
 }
 function JobSeekerSkills() {
-
+  const [item, setItem] = useState(null);
   const [data, setData] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -24,23 +24,22 @@ function JobSeekerSkills() {
       .catch(error => console.error(error));
   }, []);
   
-  const PopupWindow = ({ isOpen, onClose, i }) => {
+  const PopupWindow = ({ isOpen, onClose, jobseeker }) => {
     if (!isOpen) return null;
     return (
       <div className="popup-container">
         <div className="popup-content">
-          {/* Content of your pop-up window */}
-          <UpdateJobseekerSkills index={i} />
-          <button onClick={onClose}>{i}</button>
+        <button className="close-button" onClick={onClose}>&times;</button>
+          <UpdateJobseekerSkills newData={jobseeker} />
         </div>
       </div>
     );
   };
     const [isPopupOpen, setPopupOpen] = useState(false);
 
-    const openPopup = () => {
+    const openPopup = (item) => {
       setPopupOpen(true);
-      setSelectedIndex(0);
+      setItem(item);
     };
 
     const closePopup = () => {
@@ -48,44 +47,42 @@ function JobSeekerSkills() {
     };
 
   return (
-    
     <div class="row">
       {data ? 
-      <pre>
         <div class="col-lg-8">
           <div class="container box_1170">
             <div class="section-top-border">
               <h3 class="mb-30">Skills</h3>
-                <div class="progress-table-wrap">
-                  <div class="progress-table">
-                    <div class="table-head">
-                      <div class="serial">#</div>
-                      <div class="country">Skill Name</div>
-                      <div class="country">Years</div>
-                      <div class="serial">User ID</div>
-                    </div>
-                    {data.map((item, index) => (
-                      <div key={index}>
-                        <div class="col-md-12">
-                          <div class="table-row">
-                            <div class="serial">{data[index]["PK_SkillsID"] || ''}</div>
-                            <div class="country">{data[index]["SkillsName"] || ''}</div>
-                            <div class="country">{data[index]["SkillsNumYearsExperience"] || ''}</div>
-                            <div class="serial">{data[index]["FK_JobseekerID"] || ''}</div>
-                            <div className="app">
-                              <button class="genric-btn info-border circle" onClick={openPopup}>Edit</button>
-                              <PopupWindow isOpen={isPopupOpen} onClose={closePopup} i={selectedIndex}/>
-                            </div> 
-                          </div>
+              <div class="progress-table-wrap">
+                <div class="progress-table">
+                  <div class="table-head">
+                    <div class="serial">#</div>
+                    <div class="visit">Skill Name</div>
+                    <div class="visit">Years</div>
+                    <div class="visit">User ID</div>
+                    <div class="visit">Edit</div>
+                  </div>
+                  {data.map((item, index) => (
+                    <div key={index}>
+                      <div class="col-md-12">
+                        <div class="table-row">
+                          <div class="serial">{data[index]["PK_SkillsID"] || ''}</div>
+                          <div class="visit">{data[index]["SkillsName"] || ''}</div>
+                          <div class="visit">{data[index]["SkillsNumYearsExperience"] || ''}</div>
+                          <div class="visit">{data[index]["FK_JobseekerID"] || ''}</div>
+                          <div className="visit">
+                            <button class="genric-btn info-border circle" key={index} onClick={() => openPopup(data[index])}>Edit</button>
+                          </div> 
                         </div>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
+                  <PopupWindow isOpen={isPopupOpen} onClose={closePopup} jobseeker={item}/>
                 </div>
               </div>
             </div>
+          </div>
         </div>
-      </pre> 
       : 'Loading...'}
     </div>
     
