@@ -50,19 +50,28 @@ var options = {
     
 
     return (
-      <div>
-      <button onClick={fetchFile}>Fetch File</button>
-      {fileUrl && (
-        <a href={fileUrl} download={fileName}>
-          Click to Download File
-        </a>
-      )}
-      <div>
-        <span>
-          Hello.
-          {disposition}
-        </span>
-      </div>
+    <div>
+      <section class="contact-section section_padding">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8">
+                <div class="form-group mt-3">
+                  <button type="submit" class="button button-contactForm btn_4 boxed-btn" onClick={fetchFile}>View Resume</button>
+                  {fileUrl && (
+                    <a href={fileUrl} download={fileName}>
+                      Click to Download File
+                    </a>
+                  )}
+                  <div>
+                    <span>
+                      {disposition}
+                    </span>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
   }

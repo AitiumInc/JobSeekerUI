@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UpdateJobseekerSkills from './UpdateJobseekerSkills';
+import AddJobseekerSkills from './AddJobseekerSkills';
 
 var options = {  
   method: 'GET',
@@ -24,13 +25,25 @@ function JobSeekerSkills() {
       .catch(error => console.error(error));
   }, []);
   
-  const PopupWindow = ({ isOpen, onClose, jobseeker }) => {
+  const UpdateJobseekerPopup = ({ isOpen, onClose, jobseeker }) => {
     if (!isOpen) return null;
     return (
       <div className="popup-container">
         <div className="popup-content">
         <button className="close-button" onClick={onClose}>&times;</button>
           <UpdateJobseekerSkills newData={jobseeker} />
+        </div>
+      </div>
+    );
+  };
+
+  const AddJobseekerPopup = ({ isOpen, onClose }) => {
+    if (!isOpen) return null;
+    return (
+      <div className="popup-container">
+        <div className="popup-content">
+        <button className="close-button" onClick={onClose}>&times;</button>
+          <AddJobseekerSkills/>
         </div>
       </div>
     );
@@ -77,10 +90,11 @@ function JobSeekerSkills() {
                       </div>
                     </div>
                   ))}
-                  <PopupWindow isOpen={isPopupOpen} onClose={closePopup} jobseeker={item}/>
+                  <UpdateJobseekerPopup isOpen={isPopupOpen} onClose={closePopup} jobseeker={item}/>
                 </div>
               </div>
             </div>
+            <button type="submit" class="button button-contactForm btn_4 boxed-btn">View Resume</button>
           </div>
         </div>
       : 'Loading...'}

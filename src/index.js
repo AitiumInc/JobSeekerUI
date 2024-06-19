@@ -39,6 +39,9 @@ root.render(
       <JobSeekerSkills/>
       <JobSeekerEducation/>
       <JobSeekerExperiences/>
+      <UpdateJobSeekerResume />
+      <JobSeekerResume />
+      
     </div>
   </div>
   </React.StrictMode>
