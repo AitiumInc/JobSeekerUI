@@ -1,0 +1,11 @@
+export { default as Navbar } from './navbar/Navbar';
+export { default as Title } from './title/Title';
+export { default as Menu } from './menu/Menu';
+export { default as Experiences } from './Profile/experiences/Experiences';
+export { default as Profilename } from './Profile/profilename/Profilename';
+export { default as Skills } from './Profile/skills/Skills';
+export { default as Updateprofile } from './Profile/profilename/Updateprofile';
+export { default as Updateskills } from './Profile/skills/Updateskills';
+export { default as Updateexperiences } from './Profile/experiences/Updateexperiences';
+export { default as Feature } from  './feature/Feature';
+export { default as Tabledata } from './tabledata/Tabledata';
