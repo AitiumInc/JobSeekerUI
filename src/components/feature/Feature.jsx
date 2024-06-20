@@ -12,11 +12,11 @@ const Feature = ({handleOpen, Title, plus}) => {
             <Typography variant='h4' sx={{
             fontFamily: 'Rubik, sans-serif', color: 'black',}}>{Title}</Typography>
           </Grid>
-          <Grid item xs = {6} md={1} sx = {{display: 'flex', justifyContent:'flex-end', paddingRight:{md:'20px', xs:'10px'}}}>
+          <Grid item xs = {6} md={2} sx = {{display: 'flex', justifyContent:'flex-end', paddingRight:{md:'20px', xs:'10px'}}}>
             {plus ? 
-            <Fab color="primary" aria-label="add"><AddIcon size="small"  onClick={handleOpen}/></Fab>
+            <Fab color="primary" aria-label="add"><AddIcon onClick={handleOpen}/></Fab>
             :
-            <Fab color="primary" aria-label="add"><EditIcon size="medium" onClick={handleOpen}/></Fab>}
+            <Fab color="primary" aria-label="add"><EditIcon onClick={handleOpen}/></Fab>}
           </Grid>
         </Grid>
         <Divider variant="middle" sx={{ width: '70vw', bgcolor: 'light-blue', margin: '20px 0px' }} />

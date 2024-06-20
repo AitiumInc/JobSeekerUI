@@ -110,7 +110,7 @@ const Experiences = () => {
                         count={tableValues.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        minwidth = {100}
+                        // minwidth = {100}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />

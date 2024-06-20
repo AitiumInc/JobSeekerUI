@@ -3,6 +3,7 @@ import { Grid, Dialog, styled, Table, TableBody, TableContainer, TablePagination
     TableCell, TableHead, Paper, TableRow, Button} from '@mui/material'
 import { Feature, Updateskills } from '../../../components';
 import { MdDeleteForever } from "react-icons/md";
+import { allSkills } from '../../../utils/constants';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -12,29 +13,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
       padding: theme.spacing(1),
     },
 }));
-
-const allSkills = [
-    { value: 'python', label: 'Python' },
-    { value: 'javascript', label: 'JavaScript' },
-    { value: 'react', label: 'React' },
-    { value: 'java', label: 'Java' },
-    { value: 'csharp', label: 'C#' },
-    { value: 'html', label: 'HTML' },
-    { value: 'css', label: 'CSS' },
-    { value: 'nodejs', label: 'Node.js' },
-    { value: 'typescript', label: 'TypeScript' },
-    { value: 'sql', label: 'SQL' },
-    { value: 'mongodb', label: 'MongoDB' },
-    { value: 'aws', label: 'AWS' },
-    { value: 'docker', label: 'Docker' },
-    { value: 'kubernetes', label: 'Kubernetes' },
-    { value: 'git', label: 'Git' },
-    { value: 'linux', label: 'Linux' },
-    { value: 'machinelearning', label: 'Machine Learning' },
-    { value: 'dataanalysis', label: 'Data Analysis' },
-    { value: 'cybersecurity', label: 'Cybersecurity' },
-    { value: 'devops', label: 'DevOps' },
-  ];
 
 function createData(id, value, skill, yoe) {
 return {
@@ -87,6 +65,15 @@ const Skills = () => {
             const newRow = createData(newId, skill, allSkills.find(s => s.value === skill)?.label || null, yoe);
             setTableValues([...tableValues, newRow]);
             // handleAllSkillChange();
+        }
+    }
+
+    const handleAddOtherSkill = (skill, yoe) => {
+        if (skill && yoe !== null && yoe !== undefined) {
+            const maxId = tableValues.length > 0 ? Math.max(...tableValues.map(row => parseInt(row.id))) : 0;
+            const newId = maxId + 1;
+            const newRow = createData(newId, skill, skill, yoe);
+            setTableValues([...tableValues, newRow]);
         }
     }
 
@@ -151,7 +138,7 @@ const Skills = () => {
                         count={tableValues.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        minwidth = {100}
+                        // minwidth = {100}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
@@ -163,7 +150,7 @@ const Skills = () => {
                     aria-labelledby="customized-dialog-title"
                     open={open}
                 >
-                <Updateskills handleClose = {handleClose} skills={aSkills} handleAllSkillChange = {handleAllSkillChange} handleAddSkill = {handleAddSkill}/>
+                <Updateskills handleClose = {handleClose} skills={aSkills} handleAllSkillChange = {handleAllSkillChange} handleAddSkill = {handleAddSkill} handleAddOtherSkill = {handleAddOtherSkill}/>
             </BootstrapDialog>
         </React.Fragment>
 

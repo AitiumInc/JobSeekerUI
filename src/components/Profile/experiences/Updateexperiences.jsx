@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DialogContent, DialogActions, Button, TextField } from '@mui/material';
-// import Datetime from "react-datetime";
-import 'react-datetime/css/react-datetime.css';
+import DatePicker from 'react-datepicker'; // Assuming you are using react-datepicker
+import 'react-datepicker/dist/react-datepicker.css';
+import './DatePicker.css'; // Import the updated CSS file
 
 const Updateexperiences = ({ handleClose, handleAddExperience }) => {
     const [role, setRole] = useState('');
     const [description, setDescription] = useState('');
-    const [startYear, setStartYear] = useState('');
-    const [endYear, setEndYear] = useState('');
+    const [startDate, setStartDate] = useState(null); // State for start date
+    const [endDate, setEndDate] = useState(null); // State for end date
       
-    useEffect( () => {
-    
-    })   
-
     const handleSubmit = () => {
-        handleAddExperience(role, description, startYear, endYear);
+        handleAddExperience(role, description, startDate, endDate);
         handleClose();
     };
            
-
     return (
         <React.Fragment>
             <DialogContent dividers>
+                Role
                 <TextField
                     autoFocus
                     margin="dense"
@@ -32,35 +29,39 @@ const Updateexperiences = ({ handleClose, handleAddExperience }) => {
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                 />
+                Description
                 <TextField
                     margin="dense"
                     label="Description"
-                    type="text"
+                    multiline
+                    rows={4} // Adjust the number of rows as needed
                     fullWidth
                     variant="outlined"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                {/* <Datetime dateFormat="YYYY" onChange={(e) => setStartYear(e.target.value)}/>
-                <Datetime dateFormat="YYYY" onChange={(e) => setEndYear(e.target.value)}/> */}
-                <TextField
-                    margin="dense"
-                    label="Start Year"
-                    type="number"
-                    fullWidth
-                    variant="outlined"
-                    value={startYear}
-                    onChange={(e) => setStartYear(e.target.value)}
-                />
-                <TextField
-                    margin="dense"
-                    label="End Year"
-                    type="number"
-                    fullWidth
-                    variant="outlined"
-                    value={endYear}
-                    onChange={(e) => setEndYear(e.target.value)}
-                />
+                Start Date
+                <div className="datepicker-container">
+                    <label className="datepicker-label">Start Date</label>
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="form-control"
+                    />
+                </div>
+                End Date
+                <div className="datepicker-container">
+                    <label className="datepicker-label">End Date</label>
+                    <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="form-control"
+                    />
+                </div>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">

@@ -12,13 +12,25 @@ import {
 } from '@mui/material';
 import { IoIosCloseCircle } from "react-icons/io";
 
-const Updateskills = ({ handleClose, skills, handleAllSkillChange, handleAddSkill }) => {
+const Updateskills = ({ handleClose, skills, handleAllSkillChange, handleAddSkill, handleAddOtherSkill }) => {
     const [skill, setSkill] = useState(skills[0]);
     const [yoe, setYoe] = useState();
+    const [other, setOther] = useState(false);
 
     const handleSkillChange = (event) => {
-        setSkill(event.target.value);
+        if(event.target.value === 'other'){
+            setOther(true);
+        }
+        else{
+            setSkill(event.target.value);
+        }
     };
+
+    const handleOtherSkill = (event) => {
+        if(other){
+            setSkill(event.target.value);
+        }
+    }
 
     const handleYoeChange = (event) => {
         setYoe(event.target.value);
@@ -27,7 +39,13 @@ const Updateskills = ({ handleClose, skills, handleAllSkillChange, handleAddSkil
     const handleEdit = () => {
         // console.log(skill, yoe);
         handleAllSkillChange();
-        handleAddSkill(skill, yoe);
+        if(other){
+            handleAddOtherSkill(skill, yoe);
+        }
+        else{
+            handleAddSkill(skill, yoe);
+        }
+        setOther(false);
         handleClose();
     };
 
@@ -73,6 +91,25 @@ const Updateskills = ({ handleClose, skills, handleAllSkillChange, handleAddSkil
                         ))}
                     </TextField>
                 </Grid>
+                {other && <Grid container item xs={12}>
+                    <TextField
+                        id="standard-skills"
+                        label="Enter skill"
+                        defaultValue=""
+                        onChange={handleOtherSkill}
+                        SelectProps={{
+                            native: true,
+                        }}
+                        helperText="Please enter your skill"
+                        variant="standard"
+                    >
+                        {/* {skills.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))} */}
+                    </TextField>
+                </Grid>}
                 <Grid item xs = {12}>
                     <Slider 
                         size="small"
