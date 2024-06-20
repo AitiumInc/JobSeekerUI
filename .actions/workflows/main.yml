@@ -1,18 +1,16 @@
-name: Gated Checkin
-
-on:
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: 
   push:
     branches:
       - fixUi
   pull_request:
     branches:
       - main
-
 jobs:
-  build:
+  deployment:
     runs-on: ubuntu-latest
     environment: gatedAccess
-    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: deploy
+        uses: actions/checkout@v4
