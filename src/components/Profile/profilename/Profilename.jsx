@@ -15,7 +15,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const Profilename = () => {
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState({});
 
   const [email, setEmail] = useState('vkovoru@gmail.com');
   const [phone, setPhone] = useState('12345678');

@@ -6,8 +6,7 @@ export const getoptions = {
       'Access-Control-Allow-Origin': "*",
       'Access-Control-Allow-Headers': "*"
     },
-    mode: 'cors',
-    crossorigin: true
+    mode: 'cors'
 }
 
 export const postoptions = {  

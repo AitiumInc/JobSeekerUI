@@ -36,7 +36,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   }));
 
 const Title = () => {
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState({});
 
   useEffect(() => {
     fetch(dbUrl+'GetJobseekerByID?ID=1', getoptions)
