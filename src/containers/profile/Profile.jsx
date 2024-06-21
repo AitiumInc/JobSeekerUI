@@ -3,6 +3,7 @@ import { Grid, Stack } from '@mui/material';
 import { Profilename, Skills, Experiences } from '../../components';
 
 const Profile = () => {
+
   return (
     <Grid container spacing = {2} sx = {{display: 'flex', 
                             justifyContent: 'center', 

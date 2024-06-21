@@ -8,29 +8,18 @@ import {
     DialogActions,
     IconButton,
     Button,
-    Slider
+    Slider,
+    FormControl, FormLabel, FormHelperText
 } from '@mui/material';
 import { IoIosCloseCircle } from "react-icons/io";
 
-const Updateskills = ({ handleClose, skills, handleAllSkillChange, handleAddSkill, handleAddOtherSkill }) => {
-    const [skill, setSkill] = useState(skills[0]);
-    const [yoe, setYoe] = useState();
-    const [other, setOther] = useState(false);
+const Updateskills = ({ handleClose, handleAddSkill }) => {
+    const [skill, setSkill] = useState();
+    const [yoe, setYoe] = useState(0);
 
     const handleSkillChange = (event) => {
-        if(event.target.value === 'other'){
-            setOther(true);
-        }
-        else{
             setSkill(event.target.value);
-        }
     };
-
-    const handleOtherSkill = (event) => {
-        if(other){
-            setSkill(event.target.value);
-        }
-    }
 
     const handleYoeChange = (event) => {
         setYoe(event.target.value);
@@ -38,14 +27,7 @@ const Updateskills = ({ handleClose, skills, handleAllSkillChange, handleAddSkil
 
     const handleEdit = () => {
         // console.log(skill, yoe);
-        handleAllSkillChange();
-        if(other){
-            handleAddOtherSkill(skill, yoe);
-        }
-        else{
-            handleAddSkill(skill, yoe);
-        }
-        setOther(false);
+        handleAddSkill(skill, yoe);
         handleClose();
     };
 
@@ -73,53 +55,33 @@ const Updateskills = ({ handleClose, skills, handleAllSkillChange, handleAddSkil
             <Grid container sx={{ padding: '0.4rem' }} spacing={4}>
                 <Grid container item xs={12}>
                     <TextField
-                        id="standard-select-skills-native"
-                        select
-                        label="Select skill"
-                        defaultValue=""
-                        onChange={handleSkillChange}
-                        SelectProps={{
-                            native: true,
-                        }}
-                        helperText="Please select your skill"
-                        variant="standard"
-                    >
-                        {skills.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </TextField>
-                </Grid>
-                {other && <Grid container item xs={12}>
-                    <TextField
                         id="standard-skills"
                         label="Enter skill"
                         defaultValue=""
-                        onChange={handleOtherSkill}
+                        onChange={handleSkillChange}
                         SelectProps={{
                             native: true,
                         }}
                         helperText="Please enter your skill"
                         variant="standard"
                     >
-                        {/* {skills.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))} */}
                     </TextField>
-                </Grid>}
+                </Grid>
                 <Grid item xs = {12}>
-                    <Slider 
+                <FormControl component="fieldset" style={{ width: '70%' }}>
+                    <FormLabel component="legend">Years of Experience</FormLabel>
+                    <Slider
                         size="small"
-                        aria-label="small"
+                        aria-label="Years of Experience"
                         onChange={handleYoeChange}
+                        value={yoe}
                         valueLabelDisplay="auto"
                         min={0}
                         max={40}
-                        style = {{width: '70%'}}
+                        style={{ width: '100%' }}
                     />
+                    <FormHelperText>{yoe} years</FormHelperText>
+                </FormControl>
                 </Grid>
             </Grid>
         </DialogContent>

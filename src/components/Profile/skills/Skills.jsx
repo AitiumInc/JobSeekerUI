@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid, Dialog, styled, Table, TableBody, TableContainer, TablePagination, 
     TableCell, TableHead, Paper, TableRow, Button} from '@mui/material'
 import { Feature, Updateskills } from '../../../components';
 import { MdDeleteForever } from "react-icons/md";
-import { allSkills } from '../../../utils/constants';
+import { dbUrl, getoptions } from '../../../utils/constants';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -14,66 +14,53 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-function createData(id, value, skill, yoe) {
+function createData(id, skill, yoe) {
 return {
     id,
-    value,
     skill,
     yoe
 };
 }
 
-const initialRows = [
-    createData(1,'python', 'Python', 3),
-    createData(2,'java', 'Java', 4),
-    createData(3,'react', 'React', 2)
-];
-
-const getUncommonSkills = (rows) => {
-    const rowsSkills = rows.map(row => row.skill);
-    return allSkills.filter(skill => !rowsSkills.includes(skill.label));
-};
-
 const Skills = () => {
 
-    const [tableValues, setTableValues] = useState(initialRows);
-    const [aSkills, setASkills] = useState(getUncommonSkills(initialRows));
+    const [tableValues, setTableValues] = useState([]);
     const [open, setOpen] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
     const isMounted = React.useRef(false);
 
-    const handleAllSkillChange = useCallback(() => {
-        setASkills(getUncommonSkills(tableValues));
-    }, [tableValues]);
+    const createTableData = (response) => {
+        if (response) {
+            const newRows = response.map(element => {
+                const { PK_SkillsID, SkillsName, SkillsNumYearsExperience } = element;
+                return createData(PK_SkillsID, SkillsName, SkillsNumYearsExperience);
+            });
+            setTableValues(newRows);
+        }
+    }
+
 
     useEffect(() => {
       if (isMounted.current) {
-        handleAllSkillChange();
-        // console.log(tableValues);
+        fetch(dbUrl+'GetJobseekerSkillsByID?ID=1', getoptions)
+              .then(data => data.json())
+              .then(json => {
+                createTableData(json);})
+              .catch(error => console.error(error));
         // console.log('Component re-rendered with values:', tableValues);
       } else {
         isMounted.current = true;
         // console.log('Component mounted with values:', tableValues);
       }
-      }, [tableValues, handleAllSkillChange]);
+      }, []);
 
     const handleAddSkill = (skill, yoe) => {
         if (skill && yoe !== null && yoe !== undefined) {
             const maxId = tableValues.length > 0 ? Math.max(...tableValues.map(row => parseInt(row.id))) : 0;
             const newId = maxId + 1;
-            const newRow = createData(newId, skill, allSkills.find(s => s.value === skill)?.label || null, yoe);
-            setTableValues([...tableValues, newRow]);
-            // handleAllSkillChange();
-        }
-    }
-
-    const handleAddOtherSkill = (skill, yoe) => {
-        if (skill && yoe !== null && yoe !== undefined) {
-            const maxId = tableValues.length > 0 ? Math.max(...tableValues.map(row => parseInt(row.id))) : 0;
-            const newId = maxId + 1;
-            const newRow = createData(newId, skill, skill, yoe);
-            setTableValues([...tableValues, newRow]);
+            const newRow = createData(newId, skill, yoe);
+            setTableValues(prevValues => [...prevValues, newRow]);
         }
     }
 
@@ -85,8 +72,8 @@ const Skills = () => {
         setOpen(false);
     };
 
-    const handleDelete = (value) => {
-        const newTableValues = tableValues.filter((row) => row.value !== value);
+    const handleDelete = (id) => {
+        const newTableValues = tableValues.filter((row) => row.id !== id);
         setTableValues(newTableValues);
         // handleAllSkillChange();
     }
@@ -127,7 +114,7 @@ const Skills = () => {
                                 {row.skill}
                             </TableCell>
                             <TableCell>{row.yoe}</TableCell>
-                            <TableCell align="right"><Button onClick={() => handleDelete(row.value)}><MdDeleteForever /></Button></TableCell>
+                            <TableCell align="right"><Button onClick={() => handleDelete(row.id)}><MdDeleteForever /></Button></TableCell>
                             </TableRow>
                         ))}
                         </TableBody>
@@ -150,7 +137,7 @@ const Skills = () => {
                     aria-labelledby="customized-dialog-title"
                     open={open}
                 >
-                <Updateskills handleClose = {handleClose} skills={aSkills} handleAllSkillChange = {handleAllSkillChange} handleAddSkill = {handleAddSkill} handleAddOtherSkill = {handleAddOtherSkill}/>
+                <Updateskills handleClose = {handleClose} handleAddSkill = {handleAddSkill}/>
             </BootstrapDialog>
         </React.Fragment>
 

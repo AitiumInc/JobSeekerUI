@@ -1,19 +1,36 @@
 import React, { useState } from 'react';
 import { DialogContent, DialogActions, Button, TextField } from '@mui/material';
-import DatePicker from 'react-datepicker'; // Assuming you are using react-datepicker
+import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './DatePicker.css'; // Import the updated CSS file
+import './DatePicker.css';
+
+const formatDate = (date) => {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+      return "";
+    }
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const year = date.getFullYear();
+    return `${month}/${year}`;
+  };
 
 const Updateexperiences = ({ handleClose, handleAddExperience }) => {
     const [role, setRole] = useState('');
     const [description, setDescription] = useState('');
-    const [startDate, setStartDate] = useState(null); // State for start date
-    const [endDate, setEndDate] = useState(null); // State for end date
+    const [startDate, setStartDate] = useState(''); // State for start date
+    const [endDate, setEndDate] = useState(''); // State for end date
       
     const handleSubmit = () => {
-        handleAddExperience(role, description, startDate, endDate);
+        handleAddExperience(role, description, formatDate(startDate), formatDate(endDate));
         handleClose();
     };
+
+    const handleStartDateChange = (date) => {
+        setStartDate(date); // Update startDate state
+      };
+    
+      const handleEndDateChange = (date) => {
+        setEndDate(date); // Update endDate state
+      };
            
     return (
         <React.Fragment>
@@ -44,22 +61,22 @@ const Updateexperiences = ({ handleClose, handleAddExperience }) => {
                 <div className="datepicker-container">
                     <label className="datepicker-label">Start Date</label>
                     <DatePicker
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                        dateFormat="MM/yyyy"
-                        showMonthYearPicker
-                        className="form-control"
+                    selected={startDate}
+                    onChange={handleStartDateChange}
+                    dateFormat="MM/yyyy"
+                    showMonthYearPicker
+                    className="form-control"
                     />
                 </div>
                 End Date
                 <div className="datepicker-container">
                     <label className="datepicker-label">End Date</label>
                     <DatePicker
-                        selected={endDate}
-                        onChange={(date) => setEndDate(date)}
-                        dateFormat="MM/yyyy"
-                        showMonthYearPicker
-                        className="form-control"
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    dateFormat="MM/yyyy"
+                    showMonthYearPicker
+                    className="form-control"
                     />
                 </div>
             </DialogContent>

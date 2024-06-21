@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Dialog, styled, Divider } from '@mui/material';
 import { Updateprofile, Feature } from '../../../components';
+import { dbUrl, getoptions } from '../../../utils/constants';
 
 import './profilename.css';
 
@@ -14,13 +15,22 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const Profilename = () => {
+  const [response, setResponse] = useState(null);
+
   const [email, setEmail] = useState('vkovoru@gmail.com');
   const [phone, setPhone] = useState('12345678');
   const [address, setAddress] = useState('McCallum, TX');
   const [state, setState] = useState('TX');
   const [searchType, setSearchType] = useState('Full-time');
-
   const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    fetch(dbUrl+'GetJobseekerByID?ID=1', getoptions)
+      .then(response => response.json())
+      .then(json => setResponse(json))
+      .catch(error => console.error(error));
+  }, [response]);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -83,13 +93,13 @@ const Profilename = () => {
               <b>Email</b>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-              {email}
+              {response && response.JobseekerEmail ? response.JobseekerEmail : ""}
             </Grid>
             <Grid className="titles" item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
               <b>Phone</b>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-              {phone}
+              {response && response.JobseekerPhoneNumber ? response.JobseekerPhoneNumber : ""}
             </Grid>
           </Grid>
 
@@ -104,13 +114,13 @@ const Profilename = () => {
               <b>Address</b>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-              {address}
+              {response && response.JobseekerAddress ? response.JobseekerAddress : ""}
             </Grid>
             <Grid className="titles" item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
               <b>Location</b>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-              {state}
+              {response && response.JobseekerCity ? response.JobseekerCity : ""}
             </Grid>
           </Grid>
 

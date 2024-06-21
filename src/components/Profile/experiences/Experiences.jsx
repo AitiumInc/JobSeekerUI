@@ -3,6 +3,7 @@ import { Grid, Dialog, styled, Table, TableBody, TableContainer, TablePagination
     TableCell, TableHead, Paper, TableRow, Button } from '@mui/material';
 import { Feature, Updateexperiences } from '../../../components';
 import { MdDeleteForever } from "react-icons/md";
+import { dbUrl, getoptions } from '../../../utils/constants';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -13,34 +14,58 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-function createData(id, role, description, startYear, endYear) {
-  return { id, role, description, startYear, endYear };
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (!(date instanceof Date) || isNaN(date)) {
+      return "";
+    }
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const year = date.getFullYear();
+    return `${month}/${year}`;
+  };
+
+function createData(id, role, description, startDate, endDate) {
+    return {
+        id,
+        role,
+        description,
+        startDate,
+        endDate
+    };
 }
 
-const initialRows = [
-  createData(1, 'Software Engineer', 'Developed web applications', 2018, 2021),
-  createData(2, 'Project Manager', 'Managed software projects', 2016, 2020),
-  createData(3, 'UI/UX Designer', 'Designed user interfaces', 2019, 2022),
-  createData(4, 'Data Scientist', 'Performed data analysis', 2017, 2020),
-  createData(5, 'Backend Developer', 'Worked on server-side logic', 2020, 2023)
-];
 
 const Experiences = () => {
-    const [tableValues, setTableValues] = useState(initialRows);
+    const [tableValues, setTableValues] = useState([]);
     const [open, setOpen] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
     const isMounted = React.useRef(false);
 
+    const processResponse = (response) => {
+        return response.map(item => 
+          createData(
+            item.PK_ExperiencesID,
+            item.ExperiencesRoleName,
+            item.ExperiencesRoleDescription,
+            formatDate(item.ExperiencesStartDate),
+            formatDate(item.ExperiencesEndDate)
+          )
+        );
+    };
+
     useEffect(() => {
       if (isMounted.current) {
-        // console.log(tableValues);
-        // console.log('Component re-rendered with values:', tableValues);
+        fetch(dbUrl+'GetJobseekerExperiencesByID?ID=1', getoptions)
+            .then(response => response.json())
+            .then(json => {
+                        setTableValues(processResponse(json))})
+            .catch(error => console.error(error));
       } else {
         isMounted.current = true;
         // console.log('Component mounted with values:', tableValues);
       }
-      }, [tableValues]);
+      }, []);
 
     const handleOpen = () => {
         setOpen(true);
@@ -50,13 +75,13 @@ const Experiences = () => {
         setOpen(false);
     };
 
-    const handleAddExperience = (role, description, startYear, endYear) => {
-      if (role && description && startYear !== null && startYear !== undefined && endYear !== null && endYear !== undefined) {
-          const maxId = tableValues.length > 0 ? Math.max(...tableValues.map(row => parseInt(row.id))) : 0;
-          const newId = maxId + 1;
-          const newRow = createData(newId, role, description, startYear, endYear);
-          setTableValues([...tableValues, newRow]);
-      }
+    const handleAddExperience = (role, description, startDate, endDate) => {
+        if (role && description && startDate !== null && startDate !== undefined && endDate !== null && endDate !== undefined) {
+            const maxId = tableValues.length > 0 ? Math.max(...tableValues.map(row => parseInt(row.id))) : 0;
+            const newId = maxId + 1;
+            const newRow = createData(newId, role, description, startDate, endDate);
+            setTableValues(prevValues => [...prevValues, newRow]);
+        }
     }
 
     const handleDelete = (id) => {
@@ -96,7 +121,7 @@ const Experiences = () => {
                               <TableRow key={row.id}>
                                   <TableCell component="th" scope="row">{row.role}</TableCell>
                                   <TableCell>{row.description}</TableCell>
-                                  <TableCell>{row.startYear} - {row.endYear}</TableCell>
+                                  <TableCell>{row.startDate} - {row.endDate}</TableCell>
                                   <TableCell align="right">
                                       <Button onClick={() => handleDelete(row.id)}><MdDeleteForever /></Button>
                                   </TableCell>

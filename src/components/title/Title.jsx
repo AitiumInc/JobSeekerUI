@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid, Typography, Avatar, Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { illustration } from './imports';
+import { dbUrl, getoptions } from '../../utils/constants';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -35,6 +36,14 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   }));
 
 const Title = () => {
+  const [response, setResponse] = useState('');
+
+  useEffect(() => {
+    fetch(dbUrl+'GetJobseekerByID?ID=1', getoptions)
+      .then(response => response.json())
+      .then(json => setResponse(json))
+      .catch(error => console.error(error));
+  }, [response]);
   return (
     <Grid container spacing = {2} sx = {{height: {xs:'20vh', md:'25vh'}, flexDirection: 'row'}}>
         <Grid item xs = {4} md = {2} sx = {{display: 'flex',
@@ -44,7 +53,7 @@ const Title = () => {
                     overlap="circular"
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     variant="dot">
-                <Avatar alt="Vishal" src="/static/images/avatar/1.jpg" sx = {{width: 120, height: 120}}/>
+                <Avatar alt={response && response.JobseekerFirstName ? response.JobseekerFirstName : "A"} src="/static/images/avatar/1.jpg" sx = {{width: 120, height: 120}}/>
             </StyledBadge>
 
         </Grid>
@@ -54,7 +63,7 @@ const Title = () => {
                 maxHeight: '100%'}}>
         <Typography variant='h2' sx={{
         fontFamily: 'Rubik, sans-serif', color: 'white', fontSize: {xs:'2.5rem', md:'3rem'}}}>
-            Vishal Varma
+            {response && response.JobseekerFirstName ? response.JobseekerFirstName : ""}{response && response.JobseekerMiddleName ? response.JobseekerMiddleName : " "}{response && response.JobseekerLastName ? response.JobseekerLastName : ""}
         </Typography>
         </Grid>
         <Grid item md = {4} sx = {{display: {xs: 'None', md:'flex'}, justifyContent: 'right',

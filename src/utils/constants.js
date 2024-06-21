@@ -1,4 +1,4 @@
-export var getoptions = {  
+export const getoptions = {  
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -10,8 +10,8 @@ export var getoptions = {
     crossorigin: true
 }
 
-export var postoptions = {  
-    method: 'GET',
+export const postoptions = {  
+    method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ export var postoptions = {
     crossorigin: true
 }
 
-export const dbUrl = 'http://localhost:8080';
+export const dbUrl = 'http://localhost:8080/';
 
 export const allSkills = [
     { value: 'python', label: 'Python' },
