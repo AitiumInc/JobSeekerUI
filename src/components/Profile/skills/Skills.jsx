@@ -1,31 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import { Grid, Dialog, styled, Table, TableBody, TableContainer, TablePagination, 
-    TableCell, TableHead, Paper, TableRow, Button} from '@mui/material'
+import React, { useState, useEffect } from 'react';
+import { Grid, Dialog, styled, Table, TableBody, TableContainer, TablePagination, TableCell, TableHead, Paper, TableRow, Button } from '@mui/material';
 import { Feature, Updateskills } from '../../../components';
 import { MdDeleteForever } from "react-icons/md";
 import { dbUrl, getoptions } from '../../../utils/constants';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
+        padding: theme.spacing(2),
     },
     '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
+        padding: theme.spacing(1),
     },
 }));
 
 function createData(id, skill, yoe) {
-return {
-    id,
-    skill,
-    yoe
-};
+    return {
+        id,
+        skill,
+        yoe
+    };
 }
 
 const Skills = () => {
-
     const [tableValues, setTableValues] = useState([]);
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
     const isMounted = React.useRef(false);
@@ -38,31 +36,25 @@ const Skills = () => {
             });
             setTableValues(newRows);
         }
-    }
-
+    };
 
     useEffect(() => {
-      if (isMounted.current) {
-        fetch(dbUrl+'GetJobseekerSkillsByID?ID=1', getoptions)
-              .then(data => data.json())
-              .then(json => {
-                createTableData(json);})
-              .catch(error => console.error(error));
-        // console.log('Component re-rendered with values:', tableValues);
-      } else {
-        isMounted.current = true;
-        // console.log('Component mounted with values:', tableValues);
-      }
-      }, []);
-
-    const handleAddSkill = (skill, yoe) => {
-        if (skill && yoe !== null && yoe !== undefined) {
-            const maxId = tableValues.length > 0 ? Math.max(...tableValues.map(row => parseInt(row.id))) : 0;
-            const newId = maxId + 1;
-            const newRow = createData(newId, skill, yoe);
-            setTableValues(prevValues => [...prevValues, newRow]);
+        if (isMounted.current) {
+            fetch(dbUrl + 'GetJobseekerSkillsByID?ID=1', getoptions)
+                .then(data => data.json())
+                .then(json => {
+                    createTableData(json);
+                })
+                .catch(error => console.error(error));
+        } else {
+            isMounted.current = true;
         }
-    }
+    }, [tableValues]);
+
+    const handleAddSkill = async (skill, yoe, newId) => {
+        const newRow = createData(newId, skill, yoe);
+        setTableValues(prevValues => [...prevValues, newRow]);
+    };
 
     const handleOpen = () => {
         setOpen(true);
@@ -75,8 +67,7 @@ const Skills = () => {
     const handleDelete = (id) => {
         const newTableValues = tableValues.filter((row) => row.id !== id);
         setTableValues(newTableValues);
-        // handleAllSkillChange();
-    }
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -85,38 +76,34 @@ const Skills = () => {
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
-    }
+    };
 
     const paginatedRows = tableValues.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     return (
         <React.Fragment>
-            <Grid container sx = {{backgroundColor: 'white', padding: '30px 30px 30px 30px', marginBottom: '5vh',
-                                    display:'flex', justifyContent:'center', alignItems:'center', borderRadius:'25px'}}>
-                <Feature handleOpen={handleOpen} Title = "Skills" plus = {true}/>
+            <Grid container sx={{ backgroundColor: 'white', padding: '30px 30px 30px 30px', marginBottom: '5vh', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '25px' }}>
+                <Feature handleOpen={handleOpen} Title="Skills" plus={true} />
 
-                <TableContainer component={Paper} sx={{borderRadius: '25px'}}>
+                <TableContainer component={Paper} sx={{ borderRadius: '25px' }}>
                     <Table sx={{ minWidth: 100 }} aria-label="simple table">
                         <TableHead>
-                        <TableRow>
-                            <TableCell>Skills</TableCell>
-                            <TableCell>Years of Experience</TableCell>
-                            <TableCell align="right">Delete</TableCell>
-                        </TableRow>
+                            <TableRow>
+                                <TableCell>Skills</TableCell>
+                                <TableCell>Years of Experience</TableCell>
+                                <TableCell align="right">Delete</TableCell>
+                            </TableRow>
                         </TableHead>
                         <TableBody>
-                        {paginatedRows.map((row) => (
-                            <TableRow
-                            key={row.id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                            <TableCell component="th" scope="row">
-                                {row.skill}
-                            </TableCell>
-                            <TableCell>{row.yoe}</TableCell>
-                            <TableCell align="right"><Button onClick={() => handleDelete(row.id)}><MdDeleteForever /></Button></TableCell>
-                            </TableRow>
-                        ))}
+                            {paginatedRows.map((row) => (
+                                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        {row.skill}
+                                    </TableCell>
+                                    <TableCell>{row.yoe}</TableCell>
+                                    <TableCell align="right"><Button onClick={() => handleDelete(row.id)}><MdDeleteForever /></Button></TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                     <TablePagination
@@ -125,23 +112,16 @@ const Skills = () => {
                         count={tableValues.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        // minwidth = {100}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </TableContainer>
-
             </Grid>
-            <BootstrapDialog
-                    onClose={handleClose}
-                    aria-labelledby="customized-dialog-title"
-                    open={open}
-                >
-                <Updateskills handleClose = {handleClose} handleAddSkill = {handleAddSkill}/>
+            <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                <Updateskills handleClose={handleClose} handleAddSkill={handleAddSkill} />
             </BootstrapDialog>
         </React.Fragment>
+    );
+};
 
-  )
-}
-
-export default Skills
+export default Skills;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Dialog, styled, Table, TableBody, TableContainer, TablePagination, 
     TableCell, TableHead, Paper, TableRow, Button } from '@mui/material';
-import { Feature, Updateexperiences } from '../../../components';
+import { Feature, Updateeducation } from '../../../components';
 import { MdDeleteForever } from "react-icons/md";
 import { dbUrl, getoptions } from '../../../utils/constants';
 
@@ -22,19 +22,19 @@ const formatDate = (dateString) => {
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const year = date.getFullYear();
     return `${month}/${year}`;
-  };
+};
 
-function createData(id, role, description, startDate, endDate) {
+function createData(id, educationName, highestDegree, startDate, endDate) {
     return {
         id,
-        role,
-        description,
+        educationName,
+        highestDegree,
         startDate,
         endDate
     };
 }
 
-const Experiences = () => {
+const Education = () => {
     const [tableValues, setTableValues] = useState([]);
     const [open, setOpen] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -44,17 +44,17 @@ const Experiences = () => {
     const processResponse = (response) => {
         return response.map(item => 
           createData(
-            item.PK_ExperiencesID,
-            item.ExperiencesRoleName,
-            item.ExperiencesRoleDescription,
-            formatDate(item.ExperiencesStartDate),
-            formatDate(item.ExperiencesEndDate)
+            item.PK_EDID,
+            item.EDInstitutionName,
+            item.EDHighestDegree,
+            formatDate(item.EDStartingDate),
+            formatDate(item.EDEndingDate)
           )
         );
     };
 
-    const fetchExperiences = () => {
-        fetch(dbUrl+'GetJobseekerExperiencesByID?ID=1', getoptions)
+    const fetchEducation = () => {
+        fetch(`${dbUrl}GetJobseekerEducationByID?ID=1`, getoptions)
             .then(response => response.json())
             .then(json => {
                 setTableValues(processResponse(json));
@@ -67,8 +67,8 @@ const Experiences = () => {
     };
 
     useEffect(() => {
-        fetchExperiences();
-    }, [tableValues]); 
+        fetchEducation();
+    }, [tableValues]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -78,28 +78,28 @@ const Experiences = () => {
         setOpen(false);
     };
 
-    const handleSuccess = () => {
-        fetchExperiences();
-    };
-
-    const handleAddExperience = (role, description, startDate, endDate) => {
-        if (role && description && startDate !== null && startDate !== undefined && endDate !== null && endDate !== undefined) {
+    const handleAddEducation = (educationName, highestDegree, startDate, endDate) => {
+        if (educationName && highestDegree && startDate !== null && startDate !== undefined && endDate !== null && endDate !== undefined) {
             const maxId = tableValues.length > 0 ? Math.max(...tableValues.map(row => parseInt(row.id))) : 0;
             const newId = maxId + 1;
-            const newRow = createData(newId, role, description, startDate, endDate);
+            const newRow = createData(newId, educationName, highestDegree, startDate, endDate);
             setTableValues(prevValues => [...prevValues, newRow]);
         }
         handleClose();
     }
 
+    const handleSuccess = () => {
+        fetchEducation()
+    }
+
     const handleDelete = (id) => {
         console.log(id)
-        fetch(`${dbUrl}DeleteJobseekerExperience`, {
+        fetch(`${dbUrl}DeleteJobseekerEducation`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'PK_ExperiencesID': id}),
+            body: JSON.stringify({'PK_EDID': id}),
         })
         .then(response => response.json())
         .then(data => {
@@ -129,7 +129,7 @@ const Experiences = () => {
         <React.Fragment>
             <Grid container sx={{ backgroundColor: 'white', padding: '30px', marginBottom: '5vh',
                                   display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '25px' }}>
-                <Feature handleOpen={handleOpen} Title="Experiences" plus={true} />
+                <Feature handleOpen={handleOpen} Title="Education" plus={true} />
 
                 {loading ? (
                     <p>Loading...</p>
@@ -138,8 +138,8 @@ const Experiences = () => {
                         <Table sx={{ minWidth: 100 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Role</TableCell>
-                                    <TableCell>Description</TableCell>
+                                    <TableCell>Education Name</TableCell>
+                                    <TableCell>Highest Degree</TableCell>
                                     <TableCell>Years</TableCell>
                                     <TableCell align="right">Delete</TableCell>
                                 </TableRow>
@@ -147,8 +147,8 @@ const Experiences = () => {
                             <TableBody>
                               {paginatedRows.map((row) => (
                                   <TableRow key={row.id}>
-                                      <TableCell component="th" scope="row">{row.role}</TableCell>
-                                      <TableCell>{row.description}</TableCell>
+                                      <TableCell component="th" scope="row">{row.educationName}</TableCell>
+                                      <TableCell>{row.highestDegree}</TableCell>
                                       <TableCell>{row.startDate} - {row.endDate}</TableCell>
                                       <TableCell align="right">
                                           <Button onClick={() => handleDelete(row.id)}><MdDeleteForever /></Button>
@@ -170,10 +170,10 @@ const Experiences = () => {
                 )}
             </Grid>
             <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-                <Updateexperiences handleClose={handleClose} handleAddExperience={handleAddExperience} handleSuccess={handleSuccess} />
+                <Updateeducation handleClose={handleClose} handleAddEducation={handleAddEducation} />
             </BootstrapDialog>
         </React.Fragment>
     );
 }
 
-export default Experiences;
+export default Education;

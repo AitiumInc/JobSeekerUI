@@ -11,7 +11,7 @@ export const App = () => {
           <Stack sx = {{flexDirection: 'column'}}>
             <Header/>
               <Routes>
-                  <Route path="/" exact element={<Feed/>}/>;
+                  <Route path="/" element={<Feed/>}/>;
                   <Route path="/profile" element={<Profile/>}/>;
               </Routes>
             </Stack>

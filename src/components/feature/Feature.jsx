@@ -14,9 +14,9 @@ const Feature = ({handleOpen, Title, plus}) => {
           </Grid>
           <Grid item xs = {6} md={2} sx = {{display: 'flex', justifyContent:'flex-end', paddingRight:{md:'20px', xs:'10px'}}}>
             {plus ? 
-            <Fab color="primary" aria-label="add"><AddIcon onClick={handleOpen}/></Fab>
+            <Fab color="primary" aria-label="add" onClick={handleOpen}><AddIcon /></Fab>
             :
-            <Fab color="primary" aria-label="add"><EditIcon onClick={handleOpen}/></Fab>}
+            <Fab color="primary" aria-label="add" onClick={handleOpen}><EditIcon /></Fab>}
           </Grid>
         </Grid>
         <Divider variant="middle" sx={{ width: '70vw', bgcolor: 'light-blue', margin: '20px 0px' }} />

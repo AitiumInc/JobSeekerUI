@@ -1,13 +1,13 @@
-export const getoptions = {  
-    method: 'GET',
-    headers: {
+export const getoptions = {
+  method: 'GET',
+  headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': "*",
-      'Access-Control-Allow-Headers': "*"
-    },
-    mode: 'cors'
-}
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*'
+  },
+  mode: 'cors' //'cors' mode, can be 'same-origin' or 'no-cors' depending on your needs
+};
 
 export const postoptions = {  
     method: 'POST',
@@ -98,4 +98,13 @@ export const statesList = [
     { value: 'WV', label: 'West Virginia' },
     { value: 'WI', label: 'Wisconsin' },
     { value: 'WY', label: 'Wyoming' }
+];
+
+export const degreeOptions = [
+  "HighSchool",
+  "Associate",
+  "Bachelors",
+  "Masters",
+  "Doctorate",
+  "Other"
 ];

@@ -17,11 +17,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const Profilename = () => {
   const [response, setResponse] = useState({});
 
-  const [email, setEmail] = useState('vkovoru@gmail.com');
-  const [phone, setPhone] = useState('12345678');
-  const [address, setAddress] = useState('McCallum, TX');
-  const [state, setState] = useState('TX');
-  const [searchType, setSearchType] = useState('Full-time');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [state, setState] = useState('');
+  const [searchType, setSearchType] = useState('');
   const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
@@ -120,7 +120,7 @@ const Profilename = () => {
               <b>Location</b>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-              {response && response.JobseekerCity ? response.JobseekerCity : ""}
+              {response && response.JobseekerState ? response.JobseekerState : ""}
             </Grid>
           </Grid>
 
@@ -153,6 +153,7 @@ const Profilename = () => {
           handleEditState={handleEditState}
           handleEditType={handleEditType}
           info={info}
+          editData = {response}
         />
       </BootstrapDialog>
     </React.Fragment>

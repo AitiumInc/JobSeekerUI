@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { DialogContent, DialogActions, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../feature/DatePicker.css';
-import { dbUrl } from '../../../utils/constants';
+import { dbUrl, degreeOptions } from '../../../utils/constants';
 
 const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
-      return "";
+        return "";
     }
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const year = date.getFullYear();
@@ -23,93 +23,97 @@ const convertToDate = (date) => {
     return `${year}-${month}-01`;
 };
 
-const Updateexperiences = ({ handleClose, handleAddExperience, handleSuccess }) => {
-    const [role, setRole] = useState('');
-    const [description, setDescription] = useState('');
+const UpdateEducation = ({ handleClose, handleAddEducation }) => {
+    const [educationName, setEducationName] = useState('');
+    const [highestDegree, setHighestDegree] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
     };
-    
+
     const handleEndDateChange = (date) => {
         setEndDate(date);
     };
 
     const handleSubmit = () => {
-        const newExperience = {
-            ExperiencesRoleName: role,
-            ExperiencesRoleDescription: description,
-            ExperiencesStartDate: convertToDate(startDate),
-            ExperiencesEndDate: convertToDate(endDate),
-            FK_JobseekerID: 1,
+        const newEducation = {
+            EDInstitutionName: educationName,
+            EDHighestDegree: highestDegree,
+            EDStartingDate: convertToDate(startDate),
+            EDEndingDate: convertToDate(endDate),
+            FK_JobseekerID: 1, // Replace with your actual Jobseeker ID logic
         };
 
-        fetch(`${dbUrl}AddJobseekerExperience`, {
+        fetch(`${dbUrl}AddJobseekerEducation`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(newExperience),
+            body: JSON.stringify(newEducation),
         })
         .then(response => response.json())
         .then(data => {
             if (data) {
-                handleAddExperience(role, description, formatDate(startDate), formatDate(endDate));
-                handleSuccess();
+                handleAddEducation(educationName, highestDegree, formatDate(startDate), formatDate(endDate));
             }
         })
         .catch(error => console.error(error));
 
         handleClose();
     };
-           
+
     return (
         <React.Fragment>
             <DialogContent dividers>
-                Role
+                Education Name
                 <TextField
                     autoFocus
                     margin="dense"
-                    label="Role"
+                    label="Education Name"
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
+                    value={educationName}
+                    onChange={(e) => setEducationName(e.target.value)}
                 />
-                Description
-                <TextField
-                    margin="dense"
-                    label="Description"
-                    multiline
-                    rows={4}
-                    fullWidth
-                    variant="outlined"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
+                Highest Degree
+                <FormControl fullWidth variant="outlined" margin="dense">
+                    <InputLabel id="highest-degree-label">Highest Degree</InputLabel>
+                    <Select
+                        labelId="highest-degree-label"
+                        value={highestDegree}
+                        onChange={(e) => setHighestDegree(e.target.value)}
+                        label="Highest Degree"
+                    >
+                        {degreeOptions.map((degree) => (
+                            <MenuItem key={degree} value={degree}>
+                                {degree}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 Start Date
                 <div className="datepicker-container">
                     <label className="datepicker-label">Start Date</label>
                     <DatePicker
-                    selected={startDate}
-                    onChange={handleStartDateChange}
-                    dateFormat="MM/yyyy"
-                    showMonthYearPicker
-                    className="form-control"
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="form-control"
                     />
                 </div>
                 End Date
                 <div className="datepicker-container">
                     <label className="datepicker-label">End Date</label>
                     <DatePicker
-                    selected={endDate}
-                    onChange={handleEndDateChange}
-                    dateFormat="MM/yyyy"
-                    showMonthYearPicker
-                    className="form-control"
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="form-control"
                     />
                 </div>
             </DialogContent>
@@ -125,4 +129,4 @@ const Updateexperiences = ({ handleClose, handleAddExperience, handleSuccess }) 
     );
 };
 
-export default Updateexperiences;
+export default UpdateEducation;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, Stack } from '@mui/material';
-import { Profilename, Skills, Experiences } from '../../components';
+import { Profilename, Skills, Experiences, Education, Certification } from '../../components';
 
 const Profile = () => {
 
@@ -15,6 +15,8 @@ const Profile = () => {
         <Profilename/>
         <Skills/>
         <Experiences/>
+        <Education/>
+        <Certification/>
       </Stack>
     </Grid>
   )
