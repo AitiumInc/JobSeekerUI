@@ -26,7 +26,7 @@ const Skills = () => {
     const [open, setOpen] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
-    const isMounted = React.useRef(false);
+    const [refreshKey, setRefreshKey] = useState(0); // This will force a re-render
 
     const createTableData = (response) => {
         if (response) {
@@ -38,22 +38,27 @@ const Skills = () => {
         }
     };
 
-    useEffect(() => {
-        if (isMounted.current) {
-            fetch(dbUrl + 'GetJobseekerSkillsByID?ID=1', getoptions)
-                .then(data => data.json())
-                .then(json => {
-                    createTableData(json);
-                })
-                .catch(error => console.error(error));
-        } else {
-            isMounted.current = true;
-        }
-    }, [tableValues]);
+    const fetchSkills = () => {
+        fetch(dbUrl + 'GetJobseekerSkillsByID?ID=1', getoptions)
+            .then(data => data.json())
+            .then(json => {
+                createTableData(json);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
 
-    const handleAddSkill = async (skill, yoe, newId) => {
+    useEffect(() => {
+        fetchSkills();
+        console.log("hello")
+    }, [refreshKey]); // Re-fetch data when refreshKey changes
+
+    const handleAddSkill = (skill, yoe, newId) => {
         const newRow = createData(newId, skill, yoe);
+        console.log('hey')
         setTableValues(prevValues => [...prevValues, newRow]);
+        setRefreshKey(oldKey => oldKey + 1); // Trigger a re-render
     };
 
     const handleOpen = () => {
@@ -64,9 +69,26 @@ const Skills = () => {
         setOpen(false);
     };
 
+    const handleSuccess = () => {
+        fetchSkills();
+    };
+
     const handleDelete = (id) => {
-        const newTableValues = tableValues.filter((row) => row.id !== id);
-        setTableValues(newTableValues);
+        fetch(`${dbUrl}DeleteJobseekerSkill`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 'PK_SkillsID': id }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    setRefreshKey(oldKey => oldKey + 1);
+                    handleSuccess();
+                }
+            })
+            .catch(error => console.error(error));
     };
 
     const handleChangePage = (event, newPage) => {
@@ -82,7 +104,7 @@ const Skills = () => {
 
     return (
         <React.Fragment>
-            <Grid container sx={{ backgroundColor: 'white', padding: '30px 30px 30px 30px', marginBottom: '5vh', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '25px' }}>
+            <Grid container sx={{ backgroundColor: 'white', padding: '30px', marginBottom: '5vh', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '25px' }}>
                 <Feature handleOpen={handleOpen} Title="Skills" plus={true} />
 
                 <TableContainer component={Paper} sx={{ borderRadius: '25px' }}>
@@ -96,12 +118,14 @@ const Skills = () => {
                         </TableHead>
                         <TableBody>
                             {paginatedRows.map((row) => (
-                                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">
                                         {row.skill}
                                     </TableCell>
                                     <TableCell>{row.yoe}</TableCell>
-                                    <TableCell align="right"><Button onClick={() => handleDelete(row.id)}><MdDeleteForever /></Button></TableCell>
+                                    <TableCell align="right">
+                                        <Button onClick={() => handleDelete(row.id)}><MdDeleteForever /></Button>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -118,7 +142,7 @@ const Skills = () => {
                 </TableContainer>
             </Grid>
             <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-                <Updateskills handleClose={handleClose} handleAddSkill={handleAddSkill} />
+                <Updateskills handleClose={handleClose} handleAddSkill={handleAddSkill} handleSuccess={handleSuccess}/>
             </BootstrapDialog>
         </React.Fragment>
     );

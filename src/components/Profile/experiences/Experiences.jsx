@@ -68,7 +68,7 @@ const Experiences = () => {
 
     useEffect(() => {
         fetchExperiences();
-    }, [tableValues]); 
+    }, []); 
 
     const handleOpen = () => {
         setOpen(true);

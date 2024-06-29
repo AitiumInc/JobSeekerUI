@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Grid, DialogTitle, DialogContent, DialogActions, IconButton, Button, Slider, FormControl, FormLabel, FormHelperText } from '@mui/material';
 import { IoIosCloseCircle } from "react-icons/io";
+import { dbUrl } from '../../../utils/constants';
 
-const Updateskills = ({ handleClose, handleAddSkill }) => {
+const Updateskills = ({ handleClose, handleAddSkill, handleSuccess }) => {
     const [skill, setSkill] = useState('');
     const [yoe, setYoe] = useState(0);
-    const [response, setResponse] = useState({ FK_JobseekerID: 1 });
+    const [response, setResponse] = useState({FK_JobseekerID: 1});
 
     const handleSkillChange = (event) => {
         setSkill(event.target.value);
@@ -23,36 +24,20 @@ const Updateskills = ({ handleClose, handleAddSkill }) => {
         }));
     };
 
-    const sendPostRequest = async (response) => {
-        const url = 'http://localhost:8080/AddJobseekerSkill';
-        const options = {
+    const handleEdit = async () => {
+        fetch(`${dbUrl}AddJobseekerSkill`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(response),
-        };
-
-        try {
-            const res = await fetch(url, options);
-            if (!res.ok) {
-                throw new Error(`HTTP error! Status: ${res.status}`);
-            }
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.error('Error:', error);
-            return null;
-        }
-    };
-
-    const handleEdit = async () => {
-        const newSkill = await sendPostRequest(response);
-        // const newSkill = true
-        if (newSkill) {
-            console.log(newSkill)
-            handleAddSkill(response.SkillsName, response.SkillsNumYearsExperience, newSkill.PK_SkillsID);
-        }
+        }).then(response => response.json())
+        .then(data => {
+                console.log('hey1')
+                handleAddSkill(response.SkillsName, response.SkillsNumYearsExperience);
+                handleSuccess();
+        })
+        .catch(error => console.error(error));
         handleClose();
     };
 

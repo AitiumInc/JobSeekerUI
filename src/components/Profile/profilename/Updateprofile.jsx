@@ -14,7 +14,7 @@ import {
     FormControl
 } from '@mui/material';
 import { IoIosCloseCircle } from "react-icons/io";
-import { statesList } from '../../../utils/constants';
+import { statesList, dbUrl } from '../../../utils/constants';
 
 const Updateprofile = ({ handleClose, handleEditEmail, handleEditAddress, handleEditPhone, handleEditType, handleEditState, info, editData }) => {
     const [email, setEmail] = useState(info.email);
@@ -64,7 +64,7 @@ const Updateprofile = ({ handleClose, handleEditEmail, handleEditAddress, handle
     };
 
     const sendPostRequest = async (response) => {
-        const url = 'http://localhost:8080/UpdateJobseeker';
+        const url = `${dbUrl}UpdateJobseeker`;
         const options = {
           method: 'POST',
           headers: {

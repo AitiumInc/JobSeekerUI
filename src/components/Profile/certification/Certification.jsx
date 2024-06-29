@@ -16,7 +16,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
-    if (!(date instanceof Date) || isNaN(date)) {
+    if (!(date instanceof Date) || isNaN(date)){
         return "";
     }
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -42,7 +42,7 @@ const Certification = () => {
 
     useEffect(() => {
         fetchCertifications();
-    }, [certifications]);
+    }, []);
 
     const processResponse = (response) => {
         return response.map(item => 

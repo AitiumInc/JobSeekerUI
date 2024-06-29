@@ -68,7 +68,7 @@ const Education = () => {
 
     useEffect(() => {
         fetchEducation();
-    }, [tableValues]);
+    }, []);
 
     const handleOpen = () => {
         setOpen(true);

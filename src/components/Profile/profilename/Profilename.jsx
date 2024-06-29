@@ -135,7 +135,7 @@ const Profilename = () => {
               <b>Type</b>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-              {searchType}
+            {/* {response && response.JobseekerState ? response.JobseekerState : ""} */}
             </Grid>
           </Grid>
         </Grid>
