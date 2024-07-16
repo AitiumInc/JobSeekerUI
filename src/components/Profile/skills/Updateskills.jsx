@@ -85,7 +85,7 @@ const Updateskills = ({ handleClose, handleAddSkill, handleSuccess }) => {
                                 value={yoe}
                                 onChange={handleYoeChange}
                                 valueLabelDisplay="auto"
-                                min={0}
+                                min={1}
                                 max={40}
                                 style={{ width: '100%' }}
                             />

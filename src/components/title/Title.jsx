@@ -3,6 +3,7 @@ import { Grid, Typography, Avatar, Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { illustration } from './imports';
 import { dbUrl, getoptions } from '../../utils/constants';
+import { useLocation } from 'react-router-dom';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -37,41 +38,45 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Title = () => {
   const [response, setResponse] = useState({});
+  const location = useLocation(); // Get the current path
 
   useEffect(() => {
-    fetch(dbUrl+'GetJobseekerByID?ID=1', getoptions)
+    location.pathname !== '/jobs' && fetch(dbUrl+'GetJobseekerByID?ID=1', getoptions)
       .then(response => response.json())
       .then(json => setResponse(json))
       .catch(error => console.error(error));
-  }, [response]);
+  }, []);
+
   return (
     <Grid container spacing = {2} sx = {{height: {xs:'20vh', md:'25vh'}, flexDirection: 'row'}}>
         <Grid item xs = {4} md = {2} sx = {{display: 'flex',
                                     justifyContent:{md:'flex-end', xs: 'center'},
                                     alignItems: 'center'}}>
-            <StyledBadge
+            {location.pathname !== '/jobs' && (
+              <StyledBadge
                     overlap="circular"
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     variant="dot">
                 <Avatar alt={response && response.JobseekerFirstName ? response.JobseekerFirstName : "A"} src="/static/images/avatar/1.jpg" sx = {{width: 120, height: 120}}/>
-            </StyledBadge>
-
+              </StyledBadge>
+            )}
         </Grid>
-        <Grid item xs = {8} md = {6}sx = {{display: 'flex',
+        <Grid item xs = {8} md = {6} sx = {{display: 'flex',
                 justifyContent: 'flex-start', // Center horizontally
                 alignItems: 'center',
                 maxHeight: '100%'}}>
         <Typography variant='h2' sx={{
         fontFamily: 'Rubik, sans-serif', color: 'white', fontSize: {xs:'2.5rem', md:'3rem'}}}>
-            {response && response.JobseekerFirstName ? response.JobseekerFirstName : ""}{response && response.JobseekerMiddleName ? response.JobseekerMiddleName : " "}{response && response.JobseekerLastName ? response.JobseekerLastName : ""}
+            {location.pathname === '/jobs' ? 'Jobs' :
+            `${response && response.JobseekerFirstName ? response.JobseekerFirstName : ""}${response && response.JobseekerMiddleName ? ` ${response.JobseekerMiddleName}` : ""}${response && response.JobseekerLastName ? ` ${response.JobseekerLastName}` : ""}`}
         </Typography>
         </Grid>
         <Grid item md = {4} sx = {{display: {xs: 'None', md:'flex'}, justifyContent: 'right',
                                   maxHeight: '100%'}}>
-          <img src = {illustration} alt='illustration' style={{
+          <img src={illustration} alt='illustration' style={{
             maxHeight: '100%',
             width: 'auto'}}>
-            </img>
+          </img>
         </Grid>
     </Grid>
   )

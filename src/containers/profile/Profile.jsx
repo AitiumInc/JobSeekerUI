@@ -1,10 +1,13 @@
 import React from 'react'
 import { Grid, Stack } from '@mui/material';
 import { Profilename, Skills, Experiences, Education, Certification } from '../../components';
+import {Header}  from '../../containers';
 
 const Profile = () => {
 
   return (
+    <React.Fragment>
+    <Header props = {{"otherTitle": false}}/>
     <Grid container spacing = {2} sx = {{display: 'flex', 
                             justifyContent: 'center', 
                             backgroundColor:'#f5f7fa',
@@ -19,6 +22,7 @@ const Profile = () => {
         <Certification/>
       </Stack>
     </Grid>
+    </React.Fragment>
   )
 }
 

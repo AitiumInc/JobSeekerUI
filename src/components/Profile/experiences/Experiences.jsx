@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Dialog, styled, Table, TableBody, TableContainer, TablePagination, 
-    TableCell, TableHead, Paper, TableRow, Button } from '@mui/material';
+    TableCell, TableHead, Paper, TableRow, Button, Snackbar, Alert } from '@mui/material';
 import { Feature, Updateexperiences } from '../../../components';
 import { MdDeleteForever } from "react-icons/md";
 import { dbUrl, getoptions } from '../../../utils/constants';
@@ -22,11 +22,13 @@ const formatDate = (dateString) => {
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const year = date.getFullYear();
     return `${month}/${year}`;
-  };
+};
 
-function createData(id, role, description, startDate, endDate) {
+function createData(id, companyName, companyLocation, role, description, startDate, endDate) {
     return {
         id,
+        companyName,
+        companyLocation,
         role,
         description,
         startDate,
@@ -40,11 +42,15 @@ const Experiences = () => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     const processResponse = (response) => {
         return response.map(item => 
           createData(
             item.PK_ExperiencesID,
+            item.ExperiencesCompanyName,
+            item.ExperiencesCompanyLocation,
             item.ExperiencesRoleName,
             item.ExperiencesRoleDescription,
             formatDate(item.ExperiencesStartDate),
@@ -57,6 +63,7 @@ const Experiences = () => {
         fetch(dbUrl+'GetJobseekerExperiencesByID?ID=1', getoptions)
             .then(response => response.json())
             .then(json => {
+                console.log(json)
                 setTableValues(processResponse(json));
                 setLoading(false);
             })
@@ -82,11 +89,11 @@ const Experiences = () => {
         fetchExperiences();
     };
 
-    const handleAddExperience = (role, description, startDate, endDate) => {
-        if (role && description && startDate !== null && startDate !== undefined && endDate !== null && endDate !== undefined) {
+    const handleAddExperience = (companyName, companyLocation, role, description, startDate, endDate) => {
+        if (companyName && companyLocation && role && description && startDate !== null && startDate !== undefined && endDate !== null && endDate !== undefined) {
             const maxId = tableValues.length > 0 ? Math.max(...tableValues.map(row => parseInt(row.id))) : 0;
             const newId = maxId + 1;
-            const newRow = createData(newId, role, description, startDate, endDate);
+            const newRow = createData(newId, companyName, companyLocation, role, description, startDate, endDate);
             setTableValues(prevValues => [...prevValues, newRow]);
         }
         handleClose();
@@ -105,13 +112,13 @@ const Experiences = () => {
         .then(data => {
             if (data) {
                 handleSuccess();
+                setSnackbarMessage('Experience deleted successfully!');
+                setSnackbarOpen(true);
             }
         })
         .catch(error => console.error(error));
 
         handleClose();
-        // const newTableValues = tableValues.filter((row) => row.id !== id);
-        // setTableValues(newTableValues);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -122,6 +129,10 @@ const Experiences = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     }
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const paginatedRows = tableValues.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
@@ -138,6 +149,8 @@ const Experiences = () => {
                         <Table sx={{ minWidth: 100 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
+                                    <TableCell>Company Name</TableCell>
+                                    <TableCell>Company Location</TableCell>
                                     <TableCell>Role</TableCell>
                                     <TableCell>Description</TableCell>
                                     <TableCell>Years</TableCell>
@@ -147,7 +160,9 @@ const Experiences = () => {
                             <TableBody>
                               {paginatedRows.map((row) => (
                                   <TableRow key={row.id}>
-                                      <TableCell component="th" scope="row">{row.role}</TableCell>
+                                      <TableCell component="th" scope="row">{row.companyName}</TableCell>
+                                      <TableCell>{row.companyLocation}</TableCell>
+                                      <TableCell>{row.role}</TableCell>
                                       <TableCell>{row.description}</TableCell>
                                       <TableCell>{row.startDate} - {row.endDate}</TableCell>
                                       <TableCell align="right">
@@ -172,6 +187,20 @@ const Experiences = () => {
             <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                 <Updateexperiences handleClose={handleClose} handleAddExperience={handleAddExperience} handleSuccess={handleSuccess} />
             </BootstrapDialog>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                action={
+                    <Button color="inherit" onClick={handleSnackbarClose}>
+                        Close
+                    </Button>
+                }
+            >
+                <Alert onClose={handleSnackbarClose} severity="success">
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </React.Fragment>
     );
 }

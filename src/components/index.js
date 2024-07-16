@@ -13,3 +13,8 @@ export { default as Feature } from  './feature/Feature';
 export { default as Tabledata } from './tabledata/Tabledata';
 export { default as Education } from './Profile/education/Education';
 export { default as Certification } from './Profile/certification/Certification';
+export { default as Sidebar } from './sidebar/Sidebar';
+export { default as Postings } from './jobposting/Postings';
+export { default as Listing } from './listing/Listing';
+export { default as OtherTitle } from './othertitle/OtherTitle';
+export { default as Joboverview } from './joboverview/Joboverview';

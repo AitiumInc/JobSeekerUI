@@ -51,12 +51,10 @@ const Skills = () => {
 
     useEffect(() => {
         fetchSkills();
-        console.log("hello")
     }, [refreshKey]); // Re-fetch data when refreshKey changes
 
     const handleAddSkill = (skill, yoe, newId) => {
         const newRow = createData(newId, skill, yoe);
-        console.log('hey')
         setTableValues(prevValues => [...prevValues, newRow]);
         setRefreshKey(oldKey => oldKey + 1); // Trigger a re-render
     };

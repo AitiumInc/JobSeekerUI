@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Grid } from '@mui/material';
-import { Navbar, Title } from '../../components';
+import { Navbar, Title, OtherTitle } from '../../components';
 import { banner } from './imports';
 
-const Header = () => {
+const Header = ({props}) => {
   const [showNavbar, setShowNavbar] = useState(false);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Header = () => {
                 ...(showNavbar ? { top: '0' } : { top: '-100px' }),}}>
               <Navbar/>
         </Grid>
-        <Title/>
+        {props.otherTitle ? <OtherTitle info={props.title}/> : <Title/>}
     </Grid>
   )
 }

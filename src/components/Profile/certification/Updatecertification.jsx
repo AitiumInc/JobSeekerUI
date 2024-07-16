@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { DialogContent, DialogActions, Button, TextField, Snackbar, Alert } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../feature/DatePicker.css';
@@ -27,6 +27,8 @@ const UpdateCertification = ({ handleClose, handleAddCertification }) => {
     const [certificate, setCertificate] = useState('');
     const [dateObtained, setDateObtained] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = () => {
         const newCertification = {
@@ -47,11 +49,16 @@ const UpdateCertification = ({ handleClose, handleAddCertification }) => {
         .then(data => {
             if (data) {
                 handleAddCertification(certificate, formatDate(dateObtained), formatDate(expirationDate));
+                handleClose();
+            } else {
+                throw new Error('Failed to add certification');
             }
         })
-        .catch(error => console.error(error));
-
-        handleClose();
+        .catch(error => {
+            console.error(error);
+            setErrorMessage(error.message || 'An error occurred');
+            setSnackbarOpen(true);
+        });
     };
 
     const handleDateObtainedChange = (date) => {
@@ -60,6 +67,10 @@ const UpdateCertification = ({ handleClose, handleAddCertification }) => {
 
     const handleExpirationDateChange = (date) => {
         setExpirationDate(date);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
     };
 
     return (
@@ -107,6 +118,11 @@ const UpdateCertification = ({ handleClose, handleAddCertification }) => {
                     Add
                 </Button>
             </DialogActions>
+            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+                <Alert onClose={handleSnackbarClose} severity="error">
+                    {errorMessage}
+                </Alert>
+            </Snackbar>
         </React.Fragment>
     );
 };

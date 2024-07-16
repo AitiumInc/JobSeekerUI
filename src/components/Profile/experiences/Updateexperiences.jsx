@@ -7,7 +7,7 @@ import { dbUrl } from '../../../utils/constants';
 
 const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
-      return "";
+        return "";
     }
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const year = date.getFullYear();
@@ -24,10 +24,12 @@ const convertToDate = (date) => {
 };
 
 const Updateexperiences = ({ handleClose, handleAddExperience, handleSuccess }) => {
+    const [companyName, setCompanyName] = useState('');
+    const [companyLocation, setCompanyLocation] = useState('');
     const [role, setRole] = useState('');
     const [description, setDescription] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -38,7 +40,14 @@ const Updateexperiences = ({ handleClose, handleAddExperience, handleSuccess }) 
     };
 
     const handleSubmit = () => {
+        if (!companyName || !companyLocation || !role || !description || !startDate || !endDate) {
+            alert('Please fill in all fields');
+            return;
+        }
+
         const newExperience = {
+            ExperiencesCompanyName: companyName,
+            ExperiencesCompanyLocation: companyLocation,
             ExperiencesRoleName: role,
             ExperiencesRoleDescription: description,
             ExperiencesStartDate: convertToDate(startDate),
@@ -56,7 +65,7 @@ const Updateexperiences = ({ handleClose, handleAddExperience, handleSuccess }) 
         .then(response => response.json())
         .then(data => {
             if (data) {
-                handleAddExperience(role, description, formatDate(startDate), formatDate(endDate));
+                handleAddExperience(companyName, companyLocation, role, description, formatDate(startDate), formatDate(endDate));
                 handleSuccess();
             }
         })
@@ -64,13 +73,35 @@ const Updateexperiences = ({ handleClose, handleAddExperience, handleSuccess }) 
 
         handleClose();
     };
-           
+
     return (
         <React.Fragment>
             <DialogContent dividers>
-                Role
+                Company Name
                 <TextField
                     autoFocus
+                    margin="dense"
+                    label="Company Name"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    required
+                />
+                Company Location
+                <TextField
+                    margin="dense"
+                    label="Company Location"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={companyLocation}
+                    onChange={(e) => setCompanyLocation(e.target.value)}
+                    required
+                />
+                Role
+                <TextField
                     margin="dense"
                     label="Role"
                     type="text"
@@ -78,6 +109,7 @@ const Updateexperiences = ({ handleClose, handleAddExperience, handleSuccess }) 
                     variant="outlined"
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
+                    required
                 />
                 Description
                 <TextField
@@ -89,27 +121,30 @@ const Updateexperiences = ({ handleClose, handleAddExperience, handleSuccess }) 
                     variant="outlined"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    required
                 />
-                Start Date
+                Start Date*
                 <div className="datepicker-container">
                     <label className="datepicker-label">Start Date</label>
                     <DatePicker
-                    selected={startDate}
-                    onChange={handleStartDateChange}
-                    dateFormat="MM/yyyy"
-                    showMonthYearPicker
-                    className="form-control"
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="form-control"
+                        required
                     />
                 </div>
-                End Date
+                End Date*
                 <div className="datepicker-container">
                     <label className="datepicker-label">End Date</label>
                     <DatePicker
-                    selected={endDate}
-                    onChange={handleEndDateChange}
-                    dateFormat="MM/yyyy"
-                    showMonthYearPicker
-                    className="form-control"
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="form-control"
+                        required
                     />
                 </div>
             </DialogContent>
